@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <title>Demo leaflet-react map</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Demo leaflet-react map">
+    <meta name="author" content="osxi">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/jsx" src="leaflet-components.js"></script>
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+  </head>
+  <body>
+    <style type="text/css">
+      html, body, #container, .map {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+
+    <div id="container"></div>
+
+    <script type="text/jsx">
+      React.render(
+      <LeafletMap lat="29.817178"
+                    lon="-95.4012915"
+                    minZoom="10"
+                    maxZoom="12"
+                    zoom="10"
+                    tileProvider="http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png" />
+        , $('#container')[0]
+      );
+    </script>
+  </body>
+</html>
