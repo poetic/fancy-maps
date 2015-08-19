@@ -1,5 +1,5 @@
 # fancy-maps
-React components for creating Leaflet maps
+React components for creating Leaflet maps. [DEMO](http://poetic.github.io/fancy-maps/).
 
 Usage
 -----
