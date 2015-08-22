@@ -32,11 +32,12 @@
       <LeafletMap lat="29.817178"
                   lon="-95.4012915"
                   minZoom="10"
-                  maxZoom="15"
+                  maxZoom="17"
                   zoom="10"
                   tileProvider="http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png">
         <LayerGroup showThreshold="11" hideThreshold="12" dataSource="communities.geojson" />
         <LayerGroup showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
+        <LayerGroup showThreshold="10" hideThreshold="17" dataSource="real_section.geojson" cluster="true" />
       </LeafletMap>, document.getElementById('container')
       );
     </script>
