@@ -48,7 +48,6 @@ gulp.task('server', ['babel', 'lint'], function() {
   gulp.src(["./examples/**", "./dist/**"])
     .pipe(server({
       livereload: true,
-      open: true,
       defaultFile: 'basic-map.html'
     }));
 });
