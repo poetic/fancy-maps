@@ -4,28 +4,36 @@ var server = require('gulp-server-livereload');
 var rimraf = require('gulp-rimraf');
 var jshint = require('gulp-jshint');
 
-var path = {
+var paths = {
   in: {
-    lib: "./lib/**/*.js",
-    dist: "./dist/**/*.js",
-    examples: "./examples/**/*.js"
+    lib: {
+      js: "./lib/**/*.js"
+    },
+    examples: {
+      js: "./examples/**/*.js"
+    }
   },
   out: {
-    dist: "./dist",
-    examples: "./examples"
+    dist: {
+      all: "./dist/**",
+      dir: "./dist"
+    },
+    examples: {
+      all: "./examples/**"
+    }
   }
 };
 
 gulp.task('babel', function() {
-  return gulp.src(path.in.lib)
+  return gulp.src(paths.in.lib.js)
     .pipe(babel())
-    .pipe(gulp.dest(path.out.dist));
+    .pipe(gulp.dest(paths.out.dist.dir));
 });
 
 gulp.task('default', ['server']);
 
 gulp.task('clean', function() {
-  return gulp.src(path.out.dist, {
+  return gulp.src(paths.out.dist.dir, {
     read: false
   }).pipe(rimraf({
     force: true
@@ -33,7 +41,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src([path.in.lib, path.in.examples])
+  return gulp.src([paths.in.lib.js, paths.in.examples.js])
     .pipe(jshint({
       linter: require('jshint-jsx').JSXHINT
     }))
@@ -41,11 +49,11 @@ gulp.task('lint', function() {
 });
 
 gulp.task('server', ['babel', 'lint'], function() {
-  gulp.watch(path.in.lib, ['babel']);
+  gulp.watch(paths.in.lib.js, ['babel']);
 
-  gulp.watch([path.in.lib, path.in.examples], ['lint']);
+  gulp.watch([paths.in.lib.js, paths.in.examples.js], ['lint']);
 
-  gulp.src(["./examples/**", "./dist/**"])
+  gulp.src([paths.out.examples.all, paths.out.dist.all])
     .pipe(server({
       livereload: true,
       defaultFile: 'basic-map.html'
