@@ -1,36 +1,51 @@
-var gulp   = require("gulp");
-var babel  = require("gulp-babel");
-var server = require('gulp-server-livereload');
-var rimraf = require('gulp-rimraf');
+var babelify = require('babelify');
+var buffer = require('vinyl-buffer');
+var browserify = require('browserify');
+var gulp   = require('gulp');
+var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
+var rimraf = require('gulp-rimraf');
+var server = require('gulp-server-livereload');
+var sourcemaps = require('gulp-sourcemaps');
+var source = require('vinyl-source-stream');
+var uglify = require('gulp-uglify');
+var watchify = require('watchify');
 
 var paths = {
   in: {
-    lib: {
-      js: "./lib/**/*.js"
-    },
     examples: {
-      js: "./examples/**/*.js"
+      js: './examples/**/*.js'
+    },
+    lib: {
+      js: './lib/**/*.js'
     }
   },
   out: {
     dist: {
-      all: "./dist/**",
-      dir: "./dist"
+      all: './dist/**',
+      dir: './dist'
     },
     examples: {
-      all: "./examples/**"
+      all: './examples/**'
     }
   }
 };
 
-gulp.task('babel', function() {
-  return gulp.src(paths.in.lib.js)
-    .pipe(babel())
-    .pipe(gulp.dest(paths.out.dist.dir));
-});
+gulp.task('babel', ['clean'], function() {
+  var b = browserify({
+    entries: './lib/components/leaflet-components.js',
+    debug: true
+  }).transform(babelify);
 
-gulp.task('default', ['server']);
+  return b.bundle()
+    .pipe(source('leaflet-components.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.out.dist.dir))
+    .on('error', gutil.log);
+});
 
 gulp.task('clean', function() {
   return gulp.src(paths.out.dist.dir, {
@@ -39,6 +54,8 @@ gulp.task('clean', function() {
     force: true
   }));
 });
+
+gulp.task('default', ['server']);
 
 gulp.task('lint', function() {
   return gulp.src([paths.in.lib.js, paths.in.examples.js])

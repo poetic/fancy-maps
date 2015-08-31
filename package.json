@@ -17,11 +17,18 @@
   "author": "osxi",
   "license": "MIT",
   "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.0.1",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.0",
     "gulp-jshint": "^1.11.2",
     "gulp-rimraf": "^0.1.1",
     "gulp-server-livereload": "^1.4.0",
-    "jshint-jsx": "^0.4.1"
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.4.0",
+    "gulp-util": "^3.0.6",
+    "jshint-jsx": "^0.4.1",
+    "leaflet.markercluster": "^0.4.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
