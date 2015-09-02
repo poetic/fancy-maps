@@ -28,6 +28,7 @@
     "gulp-util": "^3.0.6",
     "jshint-jsx": "^0.4.1",
     "leaflet.markercluster": "^0.4.0",
+    "rsvp": "^3.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
