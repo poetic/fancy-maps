@@ -28,7 +28,8 @@ var paths = {
     examples: {
       all: './examples/**'
     }
-  }
+  },
+  vendor: './vendor/**'
 };
 
 gulp.task('babel', ['clean'], function() {
@@ -70,7 +71,7 @@ gulp.task('server', ['babel', 'lint'], function() {
 
   gulp.watch([paths.in.lib.js, paths.in.examples.js], ['lint']);
 
-  gulp.src([paths.out.examples.all, paths.out.dist.all])
+  gulp.src([paths.out.examples.all, paths.out.dist.all, paths.vendor])
     .pipe(server({
       livereload: true,
       defaultFile: 'basic-map.html'
