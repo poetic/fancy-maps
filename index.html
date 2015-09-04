@@ -7,10 +7,16 @@
     <meta name="description" content="Demo leaflet-react map">
     <meta name="author" content="osxi">
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://fgnass.github.io/spin.js/spin.min.js"></script>
+    <script src="leaflet.spin.js"></script>
     <script type="text/jsx" src="leaflet-components.js"></script>
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -32,11 +38,14 @@
       <LeafletMap lat="29.817178"
                   lon="-95.4012915"
                   minZoom="10"
-                  maxZoom="15"
+                  maxZoom="17"
                   zoom="10"
                   tileProvider="http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png">
-        <LayerGroup showThreshold="11" hideThreshold="12" dataSource="communities.geojson" />
+        <LayerGroup showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
+          {"Hay, it works! My address is {{address}}."}
+        </LayerGroup>
         <LayerGroup showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
+        <LayerGroup showThreshold="10" hideThreshold="17" dataSource="real_section.geojson" cluster="true" />
       </LeafletMap>, document.getElementById('container')
       );
     </script>
