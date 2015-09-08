@@ -29,6 +29,7 @@
     "handlebars": "^4.0.0",
     "jshint-jsx": "^0.4.1",
     "leaflet.markercluster": "^0.4.0",
+    "react": "^0.13.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
