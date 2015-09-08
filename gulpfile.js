@@ -42,7 +42,6 @@ gulp.task('babel', ['clean'], function() {
     .pipe(source('leaflet-components.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(paths.out.dist.dir))
     .on('error', gutil.log);

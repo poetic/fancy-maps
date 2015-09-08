@@ -47,6 +47,12 @@
         <LayerGroup showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
           {"Hay, it works! My address is {{address}}."}
         </LayerGroup>
+        <Legend>
+          {`
+            <h3>Available</h3>
+            <h3>Sold</h3>
+          `}
+        </Legend>
         <LayerGroup showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
         <LayerGroup showThreshold="10" hideThreshold="17" dataSource="real_section.geojson" cluster="true">
           {`
