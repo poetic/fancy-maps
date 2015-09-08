@@ -12,7 +12,6 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://fgnass.github.io/spin.js/spin.min.js"></script>
@@ -28,6 +27,10 @@
         width: 100%;
         height: 100%;
         margin: 0;
+      }
+
+      .blank-icon {
+        display: none;
       }
     </style>
 
@@ -45,7 +48,14 @@
           {"Hay, it works! My address is {{address}}."}
         </LayerGroup>
         <LayerGroup showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
-        <LayerGroup showThreshold="10" hideThreshold="17" dataSource="real_section.geojson" cluster="true" />
+        <LayerGroup showThreshold="10" hideThreshold="17" dataSource="real_section.geojson" cluster="true">
+          {`
+            <h2>Hello, cluster of lots</h2>
+            <p>
+              Jelly gingerbread carrot cake jelly-o. Soufflé dessert cake gingerbread croissant. Muffin caramels wafer croissant. Icing dragée pudding. Brownie halvah macaroon dragée chupa chups croissant. Pudding brownie cupcake marshmallow sweet. Jelly-o macaroon chocolate cake. Fruitcake chupa chups donut jelly chocolate. Ice cream gummi bears muffin cake. Gingerbread gummies biscuit brownie powder.
+            </p>
+          `}
+        </LayerGroup>
       </LeafletMap>, document.getElementById('container')
       );
     </script>
