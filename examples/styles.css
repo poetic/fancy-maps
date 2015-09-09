@@ -8,6 +8,10 @@ html, body, #container, .map {
   display: none;
 }
 
+.real-section {
+  stroke-width: 1px;
+}
+
 .map-legend {
   color: #fff;
   width: 125px;
