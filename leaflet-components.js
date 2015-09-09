@@ -165,7 +165,7 @@ var LeafletMap = (function (_React$Component) {
 
       return new Promise(function (resolve) {
         (0, _jquery.get)(layer.props.dataSource).then(function (json) {
-          var parsedJson = json;
+          var parsedJson = _this3.parseJSON(json);
           var features = _this3.bindPopups(layer, parsedJson);
           var newLayerGroup = _this3.createLayer(layer, features, parsedJson);
 
@@ -177,6 +177,15 @@ var LeafletMap = (function (_React$Component) {
           resolve();
         });
       });
+    }
+  }, {
+    key: 'parseJSON',
+    value: function parseJSON(json) {
+      try {
+        return (0, _jquery.parseJSON)(json);
+      } catch (_e) {
+        return json;
+      }
     }
   }, {
     key: 'createLayer',
@@ -226,6 +235,9 @@ var LeafletMap = (function (_React$Component) {
 
             _layer.bindPopup(template(ctx));
           }
+        },
+        style: function style() {
+          return { className: layer.props.className };
         }
       });
     }
