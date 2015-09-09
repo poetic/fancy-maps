@@ -1,0 +1,46 @@
+html, body, #container, .map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.blank-icon {
+  display: none;
+}
+
+.map-legend {
+  color: #fff;
+  width: 125px;
+  background-color: black;
+  border: 1px solid #959595;
+  border-radius: 5px;
+  opacity: 0.6;
+  padding: 10px;
+}
+
+.map-legend h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.map-legend .body {
+  font-size: 16px;
+  line-height: 16px;
+  /* padding-left: 15px; */
+}
+
+.map-legend .body .water {
+  color: #000;
+  background-color: #B5D0D0;
+  margin-bottom: 5px;
+  padding: 3px;
+  display: inline-block;
+}
+
+.map-legend .body .polygon {
+  color: #000;
+  background-color: #5F7EF8;
+  padding: 3px;
+  display: inline-block;
+}
