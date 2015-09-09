@@ -33,10 +33,10 @@
                   maxZoom="17"
                   zoom="10"
                   tileProvider="http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png">
-        <LayerGroup showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
+        <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
           {"Hay, it works! My address is {{address}}."}
-        </LayerGroup>
-        <Legend>
+        </LeafletLayer>
+        <LeafletLegend>
           {`
             <h2>Legend</h2>
             <div class="body">
@@ -44,9 +44,9 @@
               <div class="polygon">Polygon</div><br />
             </div>
           `}
-        </Legend>
-        <LayerGroup showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
-        <LayerGroup showThreshold="10" hideThreshold="17"
+        </LeafletLegend>
+        <LeafletLayer showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
+        <LeafletLayer showThreshold="10" hideThreshold="17"
                     dataSource="https://dl.dropboxusercontent.com/u/46535302/Section%2012.geojson"
                     cluster="true" className="real-section">
           {`
@@ -57,7 +57,7 @@
               <li>Section: {{Section}}</li>
             </ul>
           `}
-        </LayerGroup>
+        </LeafletLayer>
       </LeafletMap>, document.getElementById('container')
       );
     </script>

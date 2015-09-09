@@ -13,17 +13,17 @@ Instantiates a new Leaflet map.
 
 Example: `<LeafletMap lat="29.817178" lon="-95.4012915" minZoom="2" maxZoom="20" zoom="10" />`
 
-#### `LayerGroup`
-Adds a new LayerGroup to a Leaflet map.
+#### `LeafletLayer`
+Adds a new layer containing polygons to a Leaflet map.
 
-Example: `<LayerGroup showThreshold="11" hideThreshold="12" dataSource="communities.geojson" />`
+Example: `<LeafletLayer showThreshold="11" hideThreshold="12" dataSource="communities.geojson" />`
 
 Note: Must be a child of `<LeafletMap>`
 
-#### `Legend`
-Adds a new LayerGroup to a Leaflet map.
+#### `LeafletLegend`
+Adds a legend control to a Leaflet map.
 
-Example: ``<Legend>{`<h3>Key</h3>`}</Legend>``
+Example: ``<LeafletLegend>{`<h3>Key</h3>`}</LeafletLegend>``
 
 Note: Must be a child of `<LeafletMap>`
 
