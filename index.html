@@ -46,12 +46,16 @@
           `}
         </Legend>
         <LayerGroup showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
-        <LayerGroup showThreshold="10" hideThreshold="17" dataSource="real_section.geojson" cluster="true">
+        <LayerGroup showThreshold="10" hideThreshold="17"
+                    dataSource="https://dl.dropboxusercontent.com/u/46535302/Section%2012.geojson"
+                    cluster="true" className="real-section">
           {`
-            <h2>Hello, cluster of lots</h2>
-            <p>
-              Jelly gingerbread carrot cake jelly-o. Soufflé dessert cake gingerbread croissant. Muffin caramels wafer croissant. Icing dragée pudding. Brownie halvah macaroon dragée chupa chups croissant. Pudding brownie cupcake marshmallow sweet. Jelly-o macaroon chocolate cake. Fruitcake chupa chups donut jelly chocolate. Ice cream gummi bears muffin cake. Gingerbread gummies biscuit brownie powder.
-            </p>
+            <h2>{{Address}}</h2>
+            <ul>
+              <li>Lot: {{Lot}}</li>
+              <li>Block: {{Block}}</li>
+              <li>Section: {{Section}}</li>
+            </ul>
           `}
         </LayerGroup>
       </LeafletMap>, document.getElementById('container')
