@@ -3,7 +3,7 @@ React components for creating Leaflet maps. [DEMO](http://poetic.github.io/fancy
 
 Usage
 -----
-Use `gulp` to start the live reload server, which opens a browser with the basic demo. See `gulpfile.js` for more gulp tasks.
+Use `gulp` to start the live reload server then navigate to http://localhost:8000. See `gulpfile.js` for more gulp tasks.
 
 Components
 ----------
@@ -20,6 +20,13 @@ Example: `<LayerGroup showThreshold="11" hideThreshold="12" dataSource="communit
 
 Note: Must be a child of `<LeafletMap>`
 
+#### `Legend`
+Adds a new LayerGroup to a Leaflet map.
+
+Example: ``<Legend>{`<h3>Key</h3>`}</Legend>``
+
+Note: Must be a child of `<LeafletMap>`
+
 Resources
 ---------
 
@@ -27,4 +34,4 @@ Further reading:
   - http://facebook.github.io/react/
   - http://leafletjs.com/
 
-For example usage, see examples/basic-map.html (running `gulp` will automatically open this file in a browser).
+For example usage, see examples/basic-map.html.
