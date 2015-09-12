@@ -1,15 +1,14 @@
 var babelify = require('babelify');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
+var del = require('del');
 var gulp   = require('gulp');
 var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
-var rimraf = require('gulp-rimraf');
 var server = require('gulp-server-livereload');
 var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
-var watchify = require('watchify');
 
 var paths = {
   in: {
@@ -48,11 +47,7 @@ gulp.task('babel', ['clean'], function() {
 });
 
 gulp.task('clean', function() {
-  return gulp.src(paths.out.dist.dir, {
-    read: false
-  }).pipe(rimraf({
-    force: true
-  }));
+  return del(paths.out.dist.dir);
 });
 
 gulp.task('default', ['server']);
