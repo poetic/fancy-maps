@@ -33,7 +33,10 @@ var paths = {
 
 gulp.task('babel', ['clean'], function() {
   var b = browserify({
-    entries: './lib/components/leaflet-components.js',
+    entries: [
+      './lib/components/leaflet-components.js',
+      './vendor/leaflet.spin.js'
+    ],
     debug: true
   }).transform(babelify);
 

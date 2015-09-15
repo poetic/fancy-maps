@@ -33,9 +33,11 @@
     "handlebars": "^4.0.0",
     "jquery": "^2.1.4",
     "jshint-jsx": "^0.4.1",
+    "leaflet": "^0.7.5",
     "leaflet.markercluster": "^0.4.0",
     "lodash": "^3.10.1",
     "react": "^0.13.3",
+    "spin": "0.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
