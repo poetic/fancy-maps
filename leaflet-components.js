@@ -117,7 +117,7 @@ var LeafletMap = (function (_React$Component) {
     key: 'legendTemplate',
     value: function legendTemplate() {
       var legend = _lodash2['default'].findLast(this.props.children, function (child) {
-        return child.type.name === 'Legend';
+        return child.type.name === 'LeafletLegend';
       });
 
       return legend.props.children;
@@ -199,7 +199,7 @@ var LeafletMap = (function (_React$Component) {
   }, {
     key: 'filterNonLayers',
     value: function filterNonLayers(layer) {
-      var blackList = ['Legend'];
+      var blackList = ['LeafletLegend'];
 
       if (!_lodash2['default'].includes(blackList, layer.type.name)) {
         return layer;
@@ -276,57 +276,57 @@ var LeafletMap = (function (_React$Component) {
 
 exports.LeafletMap = LeafletMap;
 
-var LayerGroup = (function (_React$Component2) {
-  _inherits(LayerGroup, _React$Component2);
+var LeafletLayer = (function (_React$Component2) {
+  _inherits(LeafletLayer, _React$Component2);
 
-  function LayerGroup() {
-    _classCallCheck(this, LayerGroup);
+  function LeafletLayer() {
+    _classCallCheck(this, LeafletLayer);
 
-    _get(Object.getPrototypeOf(LayerGroup.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(LeafletLayer.prototype), 'constructor', this).apply(this, arguments);
   }
 
-  _createClass(LayerGroup, [{
+  _createClass(LeafletLayer, [{
     key: 'render',
     value: function render() {
       return;
     }
   }]);
 
-  return LayerGroup;
+  return LeafletLayer;
 })(_react2['default'].Component);
 
-exports.LayerGroup = LayerGroup;
+exports.LeafletLayer = LeafletLayer;
 
-var Legend = (function (_React$Component3) {
-  _inherits(Legend, _React$Component3);
+var LeafletLegend = (function (_React$Component3) {
+  _inherits(LeafletLegend, _React$Component3);
 
-  function Legend() {
-    _classCallCheck(this, Legend);
+  function LeafletLegend() {
+    _classCallCheck(this, LeafletLegend);
 
-    _get(Object.getPrototypeOf(Legend.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(LeafletLegend.prototype), 'constructor', this).apply(this, arguments);
   }
 
-  _createClass(Legend, [{
+  _createClass(LeafletLegend, [{
     key: 'render',
     value: function render() {
       return;
     }
   }]);
 
-  return Legend;
+  return LeafletLegend;
 })(_react2['default'].Component);
 
-exports.Legend = Legend;
+exports.LeafletLegend = LeafletLegend;
 
 window.LeafletMap = LeafletMap;
 
-window.LayerGroup = LayerGroup;
+window.LeafletLayer = LeafletLayer;
 
-window.Legend = Legend;
+window.LeafletLegend = LeafletLegend;
 
 window.React = _react2['default'];
 
-},{"../config":2,"../util/center-coords":3,"../util/get-config":4,"../util/legend":5,"handlebars":39,"jquery":51,"lodash":52,"react":207}],2:[function(require,module,exports){
+},{"../config":2,"../util/center-coords":3,"../util/get-config":4,"../util/legend":5,"handlebars":39,"jquery":52,"lodash":53,"react":208}],2:[function(require,module,exports){
 'use strict';
 
 // These are meant to be reasonable defaults when props are omitted.
@@ -772,7 +772,9 @@ function drainQueue() {
         currentQueue = queue;
         queue = [];
         while (++queueIndex < len) {
-            currentQueue[queueIndex].run();
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
         }
         queueIndex = -1;
         len = queue.length;
@@ -824,7 +826,6 @@ process.binding = function (name) {
     throw new Error('process.binding is not supported');
 };
 
-// TODO(shtylman)
 process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
@@ -990,7 +991,7 @@ var _logger = require('./logger');
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var VERSION = '4.0.0';
+var VERSION = '4.0.2';
 exports.VERSION = VERSION;
 var COMPILER_REVISION = 7;
 
@@ -1157,7 +1158,7 @@ function parse(input, options) {
 
 
 },{"../utils":38,"./helpers":17,"./parser":19,"./whitespace-control":22}],15:[function(require,module,exports){
-/*global define */
+/* global define */
 'use strict';
 
 exports.__esModule = true;
@@ -2622,7 +2623,7 @@ JavaScriptCompiler.prototype = {
 
     var len = parts.length;
     for (; i < len; i++) {
-      /*eslint-disable no-loop-func */
+      /* eslint-disable no-loop-func */
       this.replaceStack(function (current) {
         var lookup = _this.nameLookup(current, parts[i], type);
         // We want to ensure that zero and false are handled properly if the context (falsy flag)
@@ -2634,7 +2635,7 @@ JavaScriptCompiler.prototype = {
           return [' && ', lookup];
         }
       });
-      /*eslint-enable no-loop-func */
+      /* eslint-enable no-loop-func */
     }
   },
 
@@ -2842,6 +2843,7 @@ JavaScriptCompiler.prototype = {
     }
     options.helpers = 'helpers';
     options.partials = 'partials';
+    options.decorators = 'container.decorators';
 
     if (!isDynamic) {
       params.unshift(this.nameLookup('partials', name, 'partial'));
@@ -3997,7 +3999,7 @@ exports['default'] = handlebars;
 
 
 },{}],20:[function(require,module,exports){
-/*eslint-disable new-cap */
+/* eslint-disable new-cap */
 'use strict';
 
 exports.__esModule = true;
@@ -4181,7 +4183,7 @@ PrintVisitor.prototype.Hash = function (hash) {
 PrintVisitor.prototype.HashPair = function (pair) {
   return pair.key + '=' + this.accept(pair.value);
 };
-/*eslint-enable new-cap */
+/* eslint-enable new-cap */
 
 
 },{"./visitor":21}],21:[function(require,module,exports){
@@ -5012,7 +5014,7 @@ module.exports = exports['default'];
 
 },{}],35:[function(require,module,exports){
 (function (global){
-/*global window */
+/* global window */
 'use strict';
 
 exports.__esModule = true;
@@ -5221,7 +5223,7 @@ function template(templateSpec, env) {
       if (templateSpec.usePartial) {
         container.partials = container.merge(options.partials, env.partials);
       }
-      if (templateSpec.useDecorators) {
+      if (templateSpec.usePartial || templateSpec.useDecorators) {
         container.decorators = container.merge(options.decorators, env.decorators);
       }
     } else {
@@ -5388,7 +5390,7 @@ var toString = Object.prototype.toString;
 
 // Sourced from lodash
 // https://github.com/bestiejs/lodash/blob/master/LICENSE.txt
-/*eslint-disable func-style */
+/* eslint-disable func-style */
 exports.toString = toString;
 var isFunction = function isFunction(value) {
   return typeof value === 'function';
@@ -5402,7 +5404,7 @@ if (isFunction(/x/)) {
 }
 exports.isFunction = isFunction;
 
-/*eslint-enable func-style */
+/* eslint-enable func-style */
 
 /* istanbul ignore next */
 var isArray = Array.isArray || function (value) {
@@ -5507,7 +5509,7 @@ exports.SourceMapGenerator = require('./source-map/source-map-generator').Source
 exports.SourceMapConsumer = require('./source-map/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./source-map/source-node').SourceNode;
 
-},{"./source-map/source-map-consumer":46,"./source-map/source-map-generator":47,"./source-map/source-node":48}],41:[function(require,module,exports){
+},{"./source-map/source-map-consumer":47,"./source-map/source-map-generator":48,"./source-map/source-node":49}],41:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5541,6 +5543,16 @@ define(function (require, exports, module) {
       set.add(aArray[i], aAllowDuplicates);
     }
     return set;
+  };
+
+  /**
+   * Return how many unique items are in this ArraySet. If duplicates have been
+   * added, than those do not count towards the size.
+   *
+   * @returns Number
+   */
+  ArraySet.prototype.size = function ArraySet_size() {
+    return Object.getOwnPropertyNames(this._set).length;
   };
 
   /**
@@ -5606,7 +5618,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":49,"amdefine":50}],42:[function(require,module,exports){
+},{"./util":50,"amdefine":51}],42:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5726,18 +5738,22 @@ define(function (require, exports, module) {
    * Decodes the next base 64 VLQ value from the given string and returns the
    * value and the rest of the string via the out parameter.
    */
-  exports.decode = function base64VLQ_decode(aStr, aOutParam) {
-    var i = 0;
+  exports.decode = function base64VLQ_decode(aStr, aIndex, aOutParam) {
     var strLen = aStr.length;
     var result = 0;
     var shift = 0;
     var continuation, digit;
 
     do {
-      if (i >= strLen) {
+      if (aIndex >= strLen) {
         throw new Error("Expected more digits in base 64 VLQ value.");
       }
-      digit = base64.decode(aStr.charAt(i++));
+
+      digit = base64.decode(aStr.charCodeAt(aIndex++));
+      if (digit === -1) {
+        throw new Error("Invalid base64 digit: " + aStr.charAt(aIndex - 1));
+      }
+
       continuation = !!(digit & VLQ_CONTINUATION_BIT);
       digit &= VLQ_BASE_MASK;
       result = result + (digit << shift);
@@ -5745,12 +5761,12 @@ define(function (require, exports, module) {
     } while (continuation);
 
     aOutParam.value = fromVLQSigned(result);
-    aOutParam.rest = aStr.slice(i);
+    aOutParam.rest = aIndex;
   };
 
 });
 
-},{"./base64":43,"amdefine":50}],43:[function(require,module,exports){
+},{"./base64":43,"amdefine":51}],43:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5762,39 +5778,70 @@ if (typeof define !== 'function') {
 }
 define(function (require, exports, module) {
 
-  var charToIntMap = {};
-  var intToCharMap = {};
-
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-    .split('')
-    .forEach(function (ch, index) {
-      charToIntMap[ch] = index;
-      intToCharMap[index] = ch;
-    });
+  var intToCharMap = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split('');
 
   /**
    * Encode an integer in the range of 0 to 63 to a single base 64 digit.
    */
-  exports.encode = function base64_encode(aNumber) {
-    if (aNumber in intToCharMap) {
-      return intToCharMap[aNumber];
+  exports.encode = function (number) {
+    if (0 <= number && number < intToCharMap.length) {
+      return intToCharMap[number];
     }
     throw new TypeError("Must be between 0 and 63: " + aNumber);
   };
 
   /**
-   * Decode a single base 64 digit to an integer.
+   * Decode a single base 64 character code digit to an integer. Returns -1 on
+   * failure.
    */
-  exports.decode = function base64_decode(aChar) {
-    if (aChar in charToIntMap) {
-      return charToIntMap[aChar];
+  exports.decode = function (charCode) {
+    var bigA = 65;     // 'A'
+    var bigZ = 90;     // 'Z'
+
+    var littleA = 97;  // 'a'
+    var littleZ = 122; // 'z'
+
+    var zero = 48;     // '0'
+    var nine = 57;     // '9'
+
+    var plus = 43;     // '+'
+    var slash = 47;    // '/'
+
+    var littleOffset = 26;
+    var numberOffset = 52;
+
+    // 0 - 25: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    if (bigA <= charCode && charCode <= bigZ) {
+      return (charCode - bigA);
     }
-    throw new TypeError("Not a valid base 64 digit: " + aChar);
+
+    // 26 - 51: abcdefghijklmnopqrstuvwxyz
+    if (littleA <= charCode && charCode <= littleZ) {
+      return (charCode - littleA + littleOffset);
+    }
+
+    // 52 - 61: 0123456789
+    if (zero <= charCode && charCode <= nine) {
+      return (charCode - zero + numberOffset);
+    }
+
+    // 62: +
+    if (charCode == plus) {
+      return 62;
+    }
+
+    // 63: /
+    if (charCode == slash) {
+      return 63;
+    }
+
+    // Invalid base64 digit.
+    return -1;
   };
 
 });
 
-},{"amdefine":50}],44:[function(require,module,exports){
+},{"amdefine":51}],44:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5805,6 +5852,9 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module, require);
 }
 define(function (require, exports, module) {
+
+  exports.GREATEST_LOWER_BOUND = 1;
+  exports.LEAST_UPPER_BOUND = 2;
 
   /**
    * Recursive implementation of binary search.
@@ -5814,18 +5864,21 @@ define(function (require, exports, module) {
    * @param aNeedle The element being searched for.
    * @param aHaystack The non-empty array being searched.
    * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+   * @param aBias Either 'binarySearch.GREATEST_LOWER_BOUND' or
+   *     'binarySearch.LEAST_UPPER_BOUND'. Specifies whether to return the
+   *     closest element that is smaller than or greater than the one we are
+   *     searching for, respectively, if the exact element cannot be found.
    */
-  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare, aBias) {
     // This function terminates when one of the following is true:
     //
     //   1. We find the exact element we are looking for.
     //
     //   2. We did not find the exact element, but we can return the index of
-    //      the next closest element that is less than that element.
+    //      the next-closest element.
     //
     //   3. We did not find the exact element, and there is no next-closest
-    //      element which is less than the one we are searching for, so we
-    //      return -1.
+    //      element than the one we are searching for, so we return -1.
     var mid = Math.floor((aHigh - aLow) / 2) + aLow;
     var cmp = aCompare(aNeedle, aHaystack[mid], true);
     if (cmp === 0) {
@@ -5833,50 +5886,81 @@ define(function (require, exports, module) {
       return mid;
     }
     else if (cmp > 0) {
-      // aHaystack[mid] is greater than our needle.
+      // Our needle is greater than aHaystack[mid].
       if (aHigh - mid > 1) {
         // The element is in the upper half.
-        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare, aBias);
       }
-      // We did not find an exact match, return the next closest one
-      // (termination case 2).
-      return mid;
+
+      // The exact needle element was not found in this haystack. Determine if
+      // we are in termination case (3) or (2) and return the appropriate thing.
+      if (aBias == exports.LEAST_UPPER_BOUND) {
+        return aHigh < aHaystack.length ? aHigh : -1;
+      } else {
+        return mid;
+      }
     }
     else {
-      // aHaystack[mid] is less than our needle.
+      // Our needle is less than aHaystack[mid].
       if (mid - aLow > 1) {
         // The element is in the lower half.
-        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare, aBias);
       }
-      // The exact needle element was not found in this haystack. Determine if
-      // we are in termination case (2) or (3) and return the appropriate thing.
-      return aLow < 0 ? -1 : aLow;
+
+      // we are in termination case (3) or (2) and return the appropriate thing.
+      if (aBias == exports.LEAST_UPPER_BOUND) {
+        return mid;
+      } else {
+        return aLow < 0 ? -1 : aLow;
+      }
     }
   }
 
   /**
    * This is an implementation of binary search which will always try and return
-   * the index of next lowest value checked if there is no exact hit. This is
-   * because mappings between original and generated line/col pairs are single
-   * points, and there is an implicit region between each of them, so a miss
-   * just means that you aren't on the very start of a region.
+   * the index of the closest element if there is no exact hit. This is because
+   * mappings between original and generated line/col pairs are single points,
+   * and there is an implicit region between each of them, so a miss just means
+   * that you aren't on the very start of a region.
    *
    * @param aNeedle The element you are looking for.
    * @param aHaystack The array that is being searched.
    * @param aCompare A function which takes the needle and an element in the
    *     array and returns -1, 0, or 1 depending on whether the needle is less
    *     than, equal to, or greater than the element, respectively.
+   * @param aBias Either 'binarySearch.GREATEST_LOWER_BOUND' or
+   *     'binarySearch.LEAST_UPPER_BOUND'. Specifies whether to return the
+   *     closest element that is smaller than or greater than the one we are
+   *     searching for, respectively, if the exact element cannot be found.
+   *     Defaults to 'binarySearch.GREATEST_LOWER_BOUND'.
    */
-  exports.search = function search(aNeedle, aHaystack, aCompare) {
+  exports.search = function search(aNeedle, aHaystack, aCompare, aBias) {
     if (aHaystack.length === 0) {
       return -1;
     }
-    return recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+
+    var index = recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack,
+                                aCompare, aBias || exports.GREATEST_LOWER_BOUND);
+    if (index < 0) {
+      return -1;
+    }
+
+    // We have found either the exact element, or the next-closest element than
+    // the one we are searching for. However, there may be more than one such
+    // element. Make sure we always return the smallest of these.
+    while (index - 1 >= 0) {
+      if (aCompare(aHaystack[index], aHaystack[index - 1], true) !== 0) {
+        break;
+      }
+      --index;
+    }
+
+    return index;
   };
 
 });
 
-},{"amdefine":50}],45:[function(require,module,exports){
+},{"amdefine":51}],45:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2014 Mozilla Foundation and contributors
@@ -5901,7 +5985,7 @@ define(function (require, exports, module) {
     var columnA = mappingA.generatedColumn;
     var columnB = mappingB.generatedColumn;
     return lineB > lineA || lineB == lineA && columnB >= columnA ||
-           util.compareByGeneratedPositions(mappingA, mappingB) <= 0;
+           util.compareByGeneratedPositionsInflated(mappingA, mappingB) <= 0;
   }
 
   /**
@@ -5954,7 +6038,7 @@ define(function (require, exports, module) {
    */
   MappingList.prototype.toArray = function MappingList_toArray() {
     if (!this._sorted) {
-      this._array.sort(util.compareByGeneratedPositions);
+      this._array.sort(util.compareByGeneratedPositionsInflated);
       this._sorted = true;
     }
     return this._array;
@@ -5964,7 +6048,129 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":49,"amdefine":50}],46:[function(require,module,exports){
+},{"./util":50,"amdefine":51}],46:[function(require,module,exports){
+/* -*- Mode: js; js-indent-level: 2; -*- */
+/*
+ * Copyright 2011 Mozilla Foundation and contributors
+ * Licensed under the New BSD license. See LICENSE or:
+ * http://opensource.org/licenses/BSD-3-Clause
+ */
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module, require);
+}
+define(function (require, exports, module) {
+
+  // It turns out that some (most?) JavaScript engines don't self-host
+  // `Array.prototype.sort`. This makes sense because C++ will likely remain
+  // faster than JS when doing raw CPU-intensive sorting. However, when using a
+  // custom comparator function, calling back and forth between the VM's C++ and
+  // JIT'd JS is rather slow *and* loses JIT type information, resulting in
+  // worse generated code for the comparator function than would be optimal. In
+  // fact, when sorting with a comparator, these costs outweigh the benefits of
+  // sorting in C++. By using our own JS-implemented Quick Sort (below), we get
+  // a ~3500ms mean speed-up in `bench/bench.html`.
+
+  /**
+   * Swap the elements indexed by `x` and `y` in the array `ary`.
+   *
+   * @param {Array} ary
+   *        The array.
+   * @param {Number} x
+   *        The index of the first item.
+   * @param {Number} y
+   *        The index of the second item.
+   */
+  function swap(ary, x, y) {
+    var temp = ary[x];
+    ary[x] = ary[y];
+    ary[y] = temp;
+  }
+
+  /**
+   * Returns a random integer within the range `low .. high` inclusive.
+   *
+   * @param {Number} low
+   *        The lower bound on the range.
+   * @param {Number} high
+   *        The upper bound on the range.
+   */
+  function randomIntInRange(low, high) {
+    return Math.round(low + (Math.random() * (high - low)));
+  }
+
+  /**
+   * The Quick Sort algorithm.
+   *
+   * @param {Array} ary
+   *        An array to sort.
+   * @param {function} comparator
+   *        Function to use to compare two items.
+   * @param {Number} p
+   *        Start index of the array
+   * @param {Number} r
+   *        End index of the array
+   */
+  function doQuickSort(ary, comparator, p, r) {
+    // If our lower bound is less than our upper bound, we (1) partition the
+    // array into two pieces and (2) recurse on each half. If it is not, this is
+    // the empty array and our base case.
+
+    if (p < r) {
+      // (1) Partitioning.
+      //
+      // The partitioning chooses a pivot between `p` and `r` and moves all
+      // elements that are less than or equal to the pivot to the before it, and
+      // all the elements that are greater than it after it. The effect is that
+      // once partition is done, the pivot is in the exact place it will be when
+      // the array is put in sorted order, and it will not need to be moved
+      // again. This runs in O(n) time.
+
+      // Always choose a random pivot so that an input array which is reverse
+      // sorted does not cause O(n^2) running time.
+      var pivotIndex = randomIntInRange(p, r);
+      var i = p - 1;
+
+      swap(ary, pivotIndex, r);
+      var pivot = ary[r];
+
+      // Immediately after `j` is incremented in this loop, the following hold
+      // true:
+      //
+      //   * Every element in `ary[p .. i]` is less than or equal to the pivot.
+      //
+      //   * Every element in `ary[i+1 .. j-1]` is greater than the pivot.
+      for (var j = p; j < r; j++) {
+        if (comparator(ary[j], pivot) <= 0) {
+          i += 1;
+          swap(ary, i, j);
+        }
+      }
+
+      swap(ary, i + 1, j);
+      var q = i + 1;
+
+      // (2) Recurse on each half.
+
+      doQuickSort(ary, comparator, p, q - 1);
+      doQuickSort(ary, comparator, q + 1, r);
+    }
+  }
+
+  /**
+   * Sort the given array in-place with the given comparator function.
+   *
+   * @param {Array} ary
+   *        An array to sort.
+   * @param {function} comparator
+   *        Function to use to compare two items.
+   */
+  exports.quickSort = function (ary, comparator) {
+    doQuickSort(ary, comparator, 0, ary.length - 1);
+  };
+
+});
+
+},{"amdefine":51}],47:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5980,9 +6186,248 @@ define(function (require, exports, module) {
   var binarySearch = require('./binary-search');
   var ArraySet = require('./array-set').ArraySet;
   var base64VLQ = require('./base64-vlq');
+  var quickSort = require('./quick-sort').quickSort;
+
+  function SourceMapConsumer(aSourceMap) {
+    var sourceMap = aSourceMap;
+    if (typeof aSourceMap === 'string') {
+      sourceMap = JSON.parse(aSourceMap.replace(/^\)\]\}'/, ''));
+    }
+
+    return sourceMap.sections != null
+      ? new IndexedSourceMapConsumer(sourceMap)
+      : new BasicSourceMapConsumer(sourceMap);
+  }
+
+  SourceMapConsumer.fromSourceMap = function(aSourceMap) {
+    return BasicSourceMapConsumer.fromSourceMap(aSourceMap);
+  }
 
   /**
-   * A SourceMapConsumer instance represents a parsed source map which we can
+   * The version of the source mapping spec that we are consuming.
+   */
+  SourceMapConsumer.prototype._version = 3;
+
+  // `__generatedMappings` and `__originalMappings` are arrays that hold the
+  // parsed mapping coordinates from the source map's "mappings" attribute. They
+  // are lazily instantiated, accessed via the `_generatedMappings` and
+  // `_originalMappings` getters respectively, and we only parse the mappings
+  // and create these arrays once queried for a source location. We jump through
+  // these hoops because there can be many thousands of mappings, and parsing
+  // them is expensive, so we only want to do it if we must.
+  //
+  // Each object in the arrays is of the form:
+  //
+  //     {
+  //       generatedLine: The line number in the generated code,
+  //       generatedColumn: The column number in the generated code,
+  //       source: The path to the original source file that generated this
+  //               chunk of code,
+  //       originalLine: The line number in the original source that
+  //                     corresponds to this chunk of generated code,
+  //       originalColumn: The column number in the original source that
+  //                       corresponds to this chunk of generated code,
+  //       name: The name of the original symbol which generated this chunk of
+  //             code.
+  //     }
+  //
+  // All properties except for `generatedLine` and `generatedColumn` can be
+  // `null`.
+  //
+  // `_generatedMappings` is ordered by the generated positions.
+  //
+  // `_originalMappings` is ordered by the original positions.
+
+  SourceMapConsumer.prototype.__generatedMappings = null;
+  Object.defineProperty(SourceMapConsumer.prototype, '_generatedMappings', {
+    get: function () {
+      if (!this.__generatedMappings) {
+        this._parseMappings(this._mappings, this.sourceRoot);
+      }
+
+      return this.__generatedMappings;
+    }
+  });
+
+  SourceMapConsumer.prototype.__originalMappings = null;
+  Object.defineProperty(SourceMapConsumer.prototype, '_originalMappings', {
+    get: function () {
+      if (!this.__originalMappings) {
+        this._parseMappings(this._mappings, this.sourceRoot);
+      }
+
+      return this.__originalMappings;
+    }
+  });
+
+  SourceMapConsumer.prototype._charIsMappingSeparator =
+    function SourceMapConsumer_charIsMappingSeparator(aStr, index) {
+      var c = aStr.charAt(index);
+      return c === ";" || c === ",";
+    };
+
+  /**
+   * Parse the mappings in a string in to a data structure which we can easily
+   * query (the ordered arrays in the `this.__generatedMappings` and
+   * `this.__originalMappings` properties).
+   */
+  SourceMapConsumer.prototype._parseMappings =
+    function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+      throw new Error("Subclasses must implement _parseMappings");
+    };
+
+  SourceMapConsumer.GENERATED_ORDER = 1;
+  SourceMapConsumer.ORIGINAL_ORDER = 2;
+
+  SourceMapConsumer.GREATEST_LOWER_BOUND = 1;
+  SourceMapConsumer.LEAST_UPPER_BOUND = 2;
+
+  /**
+   * Iterate over each mapping between an original source/line/column and a
+   * generated line/column in this source map.
+   *
+   * @param Function aCallback
+   *        The function that is called with each mapping.
+   * @param Object aContext
+   *        Optional. If specified, this object will be the value of `this` every
+   *        time that `aCallback` is called.
+   * @param aOrder
+   *        Either `SourceMapConsumer.GENERATED_ORDER` or
+   *        `SourceMapConsumer.ORIGINAL_ORDER`. Specifies whether you want to
+   *        iterate over the mappings sorted by the generated file's line/column
+   *        order or the original's source/line/column order, respectively. Defaults to
+   *        `SourceMapConsumer.GENERATED_ORDER`.
+   */
+  SourceMapConsumer.prototype.eachMapping =
+    function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
+      var context = aContext || null;
+      var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
+
+      var mappings;
+      switch (order) {
+      case SourceMapConsumer.GENERATED_ORDER:
+        mappings = this._generatedMappings;
+        break;
+      case SourceMapConsumer.ORIGINAL_ORDER:
+        mappings = this._originalMappings;
+        break;
+      default:
+        throw new Error("Unknown order of iteration.");
+      }
+
+      var sourceRoot = this.sourceRoot;
+      mappings.map(function (mapping) {
+        var source = mapping.source === null ? null : this._sources.at(mapping.source);
+        if (source != null && sourceRoot != null) {
+          source = util.join(sourceRoot, source);
+        }
+        return {
+          source: source,
+          generatedLine: mapping.generatedLine,
+          generatedColumn: mapping.generatedColumn,
+          originalLine: mapping.originalLine,
+          originalColumn: mapping.originalColumn,
+          name: mapping.name === null ? null : this._names.at(mapping.name)
+        };
+      }, this).forEach(aCallback, context);
+    };
+
+  /**
+   * Returns all generated line and column information for the original source,
+   * line, and column provided. If no column is provided, returns all mappings
+   * corresponding to a either the line we are searching for or the next
+   * closest line that has any mappings. Otherwise, returns all mappings
+   * corresponding to the given line and either the column we are searching for
+   * or the next closest column that has any offsets.
+   *
+   * The only argument is an object with the following properties:
+   *
+   *   - source: The filename of the original source.
+   *   - line: The line number in the original source.
+   *   - column: Optional. the column number in the original source.
+   *
+   * and an array of objects is returned, each with the following properties:
+   *
+   *   - line: The line number in the generated source, or null.
+   *   - column: The column number in the generated source, or null.
+   */
+  SourceMapConsumer.prototype.allGeneratedPositionsFor =
+    function SourceMapConsumer_allGeneratedPositionsFor(aArgs) {
+      var line = util.getArg(aArgs, 'line');
+
+      // When there is no exact match, BasicSourceMapConsumer.prototype._findMapping
+      // returns the index of the closest mapping less than the needle. By
+      // setting needle.originalColumn to 0, we thus find the last mapping for
+      // the given line, provided such a mapping exists.
+      var needle = {
+        source: util.getArg(aArgs, 'source'),
+        originalLine: line,
+        originalColumn: util.getArg(aArgs, 'column', 0)
+      };
+
+      if (this.sourceRoot != null) {
+        needle.source = util.relative(this.sourceRoot, needle.source);
+      }
+      if (!this._sources.has(needle.source)) {
+        return [];
+      }
+      needle.source = this._sources.indexOf(needle.source);
+
+      var mappings = [];
+
+      var index = this._findMapping(needle,
+                                    this._originalMappings,
+                                    "originalLine",
+                                    "originalColumn",
+                                    util.compareByOriginalPositions,
+                                    binarySearch.LEAST_UPPER_BOUND);
+      if (index >= 0) {
+        var mapping = this._originalMappings[index];
+
+        if (aArgs.column === undefined) {
+          var originalLine = mapping.originalLine;
+
+          // Iterate until either we run out of mappings, or we run into
+          // a mapping for a different line than the one we found. Since
+          // mappings are sorted, this is guaranteed to find all mappings for
+          // the line we found.
+          while (mapping && mapping.originalLine === originalLine) {
+            mappings.push({
+              line: util.getArg(mapping, 'generatedLine', null),
+              column: util.getArg(mapping, 'generatedColumn', null),
+              lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
+            });
+
+            mapping = this._originalMappings[++index];
+          }
+        } else {
+          var originalColumn = mapping.originalColumn;
+
+          // Iterate until either we run out of mappings, or we run into
+          // a mapping for a different line than the one we were searching for.
+          // Since mappings are sorted, this is guaranteed to find all mappings for
+          // the line we are searching for.
+          while (mapping &&
+                 mapping.originalLine === line &&
+                 mapping.originalColumn == originalColumn) {
+            mappings.push({
+              line: util.getArg(mapping, 'generatedLine', null),
+              column: util.getArg(mapping, 'generatedColumn', null),
+              lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
+            });
+
+            mapping = this._originalMappings[++index];
+          }
+        }
+      }
+
+      return mappings;
+    };
+
+  exports.SourceMapConsumer = SourceMapConsumer;
+
+  /**
+   * A BasicSourceMapConsumer instance represents a parsed source map which we can
    * query for information about the original file positions by giving it a file
    * position in the generated source.
    *
@@ -6011,7 +6456,7 @@ define(function (require, exports, module) {
    *
    * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit?pli=1#
    */
-  function SourceMapConsumer(aSourceMap) {
+  function BasicSourceMapConsumer(aSourceMap) {
     var sourceMap = aSourceMap;
     if (typeof aSourceMap === 'string') {
       sourceMap = JSON.parse(aSourceMap.replace(/^\)\]\}'/, ''));
@@ -6051,27 +6496,58 @@ define(function (require, exports, module) {
     this.file = file;
   }
 
+  BasicSourceMapConsumer.prototype = Object.create(SourceMapConsumer.prototype);
+  BasicSourceMapConsumer.prototype.consumer = SourceMapConsumer;
+
   /**
-   * Create a SourceMapConsumer from a SourceMapGenerator.
+   * Create a BasicSourceMapConsumer from a SourceMapGenerator.
    *
    * @param SourceMapGenerator aSourceMap
    *        The source map that will be consumed.
-   * @returns SourceMapConsumer
+   * @returns BasicSourceMapConsumer
    */
-  SourceMapConsumer.fromSourceMap =
+  BasicSourceMapConsumer.fromSourceMap =
     function SourceMapConsumer_fromSourceMap(aSourceMap) {
-      var smc = Object.create(SourceMapConsumer.prototype);
+      var smc = Object.create(BasicSourceMapConsumer.prototype);
 
-      smc._names = ArraySet.fromArray(aSourceMap._names.toArray(), true);
-      smc._sources = ArraySet.fromArray(aSourceMap._sources.toArray(), true);
+      var names = smc._names = ArraySet.fromArray(aSourceMap._names.toArray(), true);
+      var sources = smc._sources = ArraySet.fromArray(aSourceMap._sources.toArray(), true);
       smc.sourceRoot = aSourceMap._sourceRoot;
       smc.sourcesContent = aSourceMap._generateSourcesContent(smc._sources.toArray(),
                                                               smc.sourceRoot);
       smc.file = aSourceMap._file;
 
-      smc.__generatedMappings = aSourceMap._mappings.toArray().slice();
-      smc.__originalMappings = aSourceMap._mappings.toArray().slice()
-        .sort(util.compareByOriginalPositions);
+      // Because we are modifying the entries (by converting string sources and
+      // names to indices into the sources and names ArraySets), we have to make
+      // a copy of the entry or else bad things happen. Shared mutable state
+      // strikes again! See github issue #191.
+
+      var generatedMappings = aSourceMap._mappings.toArray().slice();
+      var destGeneratedMappings = smc.__generatedMappings = [];
+      var destOriginalMappings = smc.__originalMappings = [];
+
+      for (var i = 0, length = generatedMappings.length; i < length; i++) {
+        var srcMapping = generatedMappings[i];
+        var destMapping = new Mapping;
+        destMapping.generatedLine = srcMapping.generatedLine;
+        destMapping.generatedColumn = srcMapping.generatedColumn;
+
+        if (srcMapping.source) {
+          destMapping.source = sources.indexOf(srcMapping.source);
+          destMapping.originalLine = srcMapping.originalLine;
+          destMapping.originalColumn = srcMapping.originalColumn;
+
+          if (srcMapping.name) {
+            destMapping.name = names.indexOf(srcMapping.name);
+          }
+
+          destOriginalMappings.push(destMapping);
+        }
+
+        destGeneratedMappings.push(destMapping);
+      }
+
+      quickSort(smc.__originalMappings, util.compareByOriginalPositions);
 
       return smc;
     };
@@ -6079,12 +6555,12 @@ define(function (require, exports, module) {
   /**
    * The version of the source mapping spec that we are consuming.
    */
-  SourceMapConsumer.prototype._version = 3;
+  BasicSourceMapConsumer.prototype._version = 3;
 
   /**
    * The list of original sources.
    */
-  Object.defineProperty(SourceMapConsumer.prototype, 'sources', {
+  Object.defineProperty(BasicSourceMapConsumer.prototype, 'sources', {
     get: function () {
       return this._sources.toArray().map(function (s) {
         return this.sourceRoot != null ? util.join(this.sourceRoot, s) : s;
@@ -6092,74 +6568,24 @@ define(function (require, exports, module) {
     }
   });
 
-  // `__generatedMappings` and `__originalMappings` are arrays that hold the
-  // parsed mapping coordinates from the source map's "mappings" attribute. They
-  // are lazily instantiated, accessed via the `_generatedMappings` and
-  // `_originalMappings` getters respectively, and we only parse the mappings
-  // and create these arrays once queried for a source location. We jump through
-  // these hoops because there can be many thousands of mappings, and parsing
-  // them is expensive, so we only want to do it if we must.
-  //
-  // Each object in the arrays is of the form:
-  //
-  //     {
-  //       generatedLine: The line number in the generated code,
-  //       generatedColumn: The column number in the generated code,
-  //       source: The path to the original source file that generated this
-  //               chunk of code,
-  //       originalLine: The line number in the original source that
-  //                     corresponds to this chunk of generated code,
-  //       originalColumn: The column number in the original source that
-  //                       corresponds to this chunk of generated code,
-  //       name: The name of the original symbol which generated this chunk of
-  //             code.
-  //     }
-  //
-  // All properties except for `generatedLine` and `generatedColumn` can be
-  // `null`.
-  //
-  // `_generatedMappings` is ordered by the generated positions.
-  //
-  // `_originalMappings` is ordered by the original positions.
-
-  SourceMapConsumer.prototype.__generatedMappings = null;
-  Object.defineProperty(SourceMapConsumer.prototype, '_generatedMappings', {
-    get: function () {
-      if (!this.__generatedMappings) {
-        this.__generatedMappings = [];
-        this.__originalMappings = [];
-        this._parseMappings(this._mappings, this.sourceRoot);
-      }
-
-      return this.__generatedMappings;
-    }
-  });
-
-  SourceMapConsumer.prototype.__originalMappings = null;
-  Object.defineProperty(SourceMapConsumer.prototype, '_originalMappings', {
-    get: function () {
-      if (!this.__originalMappings) {
-        this.__generatedMappings = [];
-        this.__originalMappings = [];
-        this._parseMappings(this._mappings, this.sourceRoot);
-      }
-
-      return this.__originalMappings;
-    }
-  });
-
-  SourceMapConsumer.prototype._nextCharIsMappingSeparator =
-    function SourceMapConsumer_nextCharIsMappingSeparator(aStr) {
-      var c = aStr.charAt(0);
-      return c === ";" || c === ",";
-    };
+  /**
+   * Provide the JIT with a nice shape / hidden class.
+   */
+  function Mapping() {
+    this.generatedLine = 0;
+    this.generatedColumn = 0;
+    this.source = null;
+    this.originalLine = null;
+    this.originalColumn = null;
+    this.name = null;
+  }
 
   /**
    * Parse the mappings in a string in to a data structure which we can easily
    * query (the ordered arrays in the `this.__generatedMappings` and
    * `this.__originalMappings` properties).
    */
-  SourceMapConsumer.prototype._parseMappings =
+  BasicSourceMapConsumer.prototype._parseMappings =
     function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
       var generatedLine = 1;
       var previousGeneratedColumn = 0;
@@ -6167,83 +6593,109 @@ define(function (require, exports, module) {
       var previousOriginalColumn = 0;
       var previousSource = 0;
       var previousName = 0;
-      var str = aStr;
+      var length = aStr.length;
+      var index = 0;
+      var cachedSegments = {};
       var temp = {};
-      var mapping;
+      var originalMappings = [];
+      var generatedMappings = [];
+      var mapping, str, segment, end, value;
 
-      while (str.length > 0) {
-        if (str.charAt(0) === ';') {
+      while (index < length) {
+        if (aStr.charAt(index) === ';') {
           generatedLine++;
-          str = str.slice(1);
+          index++;
           previousGeneratedColumn = 0;
         }
-        else if (str.charAt(0) === ',') {
-          str = str.slice(1);
+        else if (aStr.charAt(index) === ',') {
+          index++;
         }
         else {
-          mapping = {};
+          mapping = new Mapping();
           mapping.generatedLine = generatedLine;
 
-          // Generated column.
-          base64VLQ.decode(str, temp);
-          mapping.generatedColumn = previousGeneratedColumn + temp.value;
-          previousGeneratedColumn = mapping.generatedColumn;
-          str = temp.rest;
+          // Because each offset is encoded relative to the previous one,
+          // many segments often have the same encoding. We can exploit this
+          // fact by caching the parsed variable length fields of each segment,
+          // allowing us to avoid a second parse if we encounter the same
+          // segment again.
+          for (end = index; end < length; end++) {
+            if (this._charIsMappingSeparator(aStr, end)) {
+              break;
+            }
+          }
+          str = aStr.slice(index, end);
 
-          if (str.length > 0 && !this._nextCharIsMappingSeparator(str)) {
-            // Original source.
-            base64VLQ.decode(str, temp);
-            mapping.source = this._sources.at(previousSource + temp.value);
-            previousSource += temp.value;
-            str = temp.rest;
-            if (str.length === 0 || this._nextCharIsMappingSeparator(str)) {
+          segment = cachedSegments[str];
+          if (segment) {
+            index += str.length;
+          } else {
+            segment = [];
+            while (index < end) {
+              base64VLQ.decode(aStr, index, temp);
+              value = temp.value;
+              index = temp.rest;
+              segment.push(value);
+            }
+
+            if (segment.length === 2) {
               throw new Error('Found a source, but no line and column');
             }
 
-            // Original line.
-            base64VLQ.decode(str, temp);
-            mapping.originalLine = previousOriginalLine + temp.value;
-            previousOriginalLine = mapping.originalLine;
-            // Lines are stored 0-based
-            mapping.originalLine += 1;
-            str = temp.rest;
-            if (str.length === 0 || this._nextCharIsMappingSeparator(str)) {
+            if (segment.length === 3) {
               throw new Error('Found a source and line, but no column');
             }
 
-            // Original column.
-            base64VLQ.decode(str, temp);
-            mapping.originalColumn = previousOriginalColumn + temp.value;
-            previousOriginalColumn = mapping.originalColumn;
-            str = temp.rest;
+            cachedSegments[str] = segment;
+          }
 
-            if (str.length > 0 && !this._nextCharIsMappingSeparator(str)) {
+          // Generated column.
+          mapping.generatedColumn = previousGeneratedColumn + segment[0];
+          previousGeneratedColumn = mapping.generatedColumn;
+
+          if (segment.length > 1) {
+            // Original source.
+            mapping.source = previousSource + segment[1];
+            previousSource += segment[1];
+
+            // Original line.
+            mapping.originalLine = previousOriginalLine + segment[2];
+            previousOriginalLine = mapping.originalLine;
+            // Lines are stored 0-based
+            mapping.originalLine += 1;
+
+            // Original column.
+            mapping.originalColumn = previousOriginalColumn + segment[3];
+            previousOriginalColumn = mapping.originalColumn;
+
+            if (segment.length > 4) {
               // Original name.
-              base64VLQ.decode(str, temp);
-              mapping.name = this._names.at(previousName + temp.value);
-              previousName += temp.value;
-              str = temp.rest;
+              mapping.name = previousName + segment[4];
+              previousName += segment[4];
             }
           }
 
-          this.__generatedMappings.push(mapping);
+          generatedMappings.push(mapping);
           if (typeof mapping.originalLine === 'number') {
-            this.__originalMappings.push(mapping);
+            originalMappings.push(mapping);
           }
         }
       }
 
-      this.__generatedMappings.sort(util.compareByGeneratedPositions);
-      this.__originalMappings.sort(util.compareByOriginalPositions);
+      quickSort(generatedMappings, util.compareByGeneratedPositionsDeflated);
+      this.__generatedMappings = generatedMappings;
+
+      quickSort(originalMappings, util.compareByOriginalPositions);
+      this.__originalMappings = originalMappings;
     };
 
   /**
    * Find the mapping that best matches the hypothetical "needle" mapping that
    * we are searching for in the given "haystack" of mappings.
    */
-  SourceMapConsumer.prototype._findMapping =
+  BasicSourceMapConsumer.prototype._findMapping =
     function SourceMapConsumer_findMapping(aNeedle, aMappings, aLineName,
-                                           aColumnName, aComparator) {
+                                           aColumnName, aComparator, aBias) {
       // To return the position we are searching for, we must first find the
       // mapping for the given position and then return the opposite position it
       // points to. Because the mappings are sorted, we can use binary search to
@@ -6258,14 +6710,14 @@ define(function (require, exports, module) {
                             + aNeedle[aColumnName]);
       }
 
-      return binarySearch.search(aNeedle, aMappings, aComparator);
+      return binarySearch.search(aNeedle, aMappings, aComparator, aBias);
     };
 
   /**
    * Compute the last column for each generated mapping. The last column is
    * inclusive.
    */
-  SourceMapConsumer.prototype.computeColumnSpans =
+  BasicSourceMapConsumer.prototype.computeColumnSpans =
     function SourceMapConsumer_computeColumnSpans() {
       for (var index = 0; index < this._generatedMappings.length; ++index) {
         var mapping = this._generatedMappings[index];
@@ -6295,6 +6747,11 @@ define(function (require, exports, module) {
    *
    *   - line: The line number in the generated source.
    *   - column: The column number in the generated source.
+   *   - bias: Either 'SourceMapConsumer.GREATEST_LOWER_BOUND' or
+   *     'SourceMapConsumer.LEAST_UPPER_BOUND'. Specifies whether to return the
+   *     closest element that is smaller than or greater than the one we are
+   *     searching for, respectively, if the exact element cannot be found.
+   *     Defaults to 'SourceMapConsumer.GREATEST_LOWER_BOUND'.
    *
    * and an object is returned with the following properties:
    *
@@ -6303,32 +6760,42 @@ define(function (require, exports, module) {
    *   - column: The column number in the original source, or null.
    *   - name: The original identifier, or null.
    */
-  SourceMapConsumer.prototype.originalPositionFor =
+  BasicSourceMapConsumer.prototype.originalPositionFor =
     function SourceMapConsumer_originalPositionFor(aArgs) {
       var needle = {
         generatedLine: util.getArg(aArgs, 'line'),
         generatedColumn: util.getArg(aArgs, 'column')
       };
 
-      var index = this._findMapping(needle,
-                                    this._generatedMappings,
-                                    "generatedLine",
-                                    "generatedColumn",
-                                    util.compareByGeneratedPositions);
+      var index = this._findMapping(
+        needle,
+        this._generatedMappings,
+        "generatedLine",
+        "generatedColumn",
+        util.compareByGeneratedPositionsDeflated,
+        util.getArg(aArgs, 'bias', SourceMapConsumer.GREATEST_LOWER_BOUND)
+      );
 
       if (index >= 0) {
         var mapping = this._generatedMappings[index];
 
         if (mapping.generatedLine === needle.generatedLine) {
           var source = util.getArg(mapping, 'source', null);
-          if (source != null && this.sourceRoot != null) {
-            source = util.join(this.sourceRoot, source);
+          if (source !== null) {
+            source = this._sources.at(source);
+            if (this.sourceRoot != null) {
+              source = util.join(this.sourceRoot, source);
+            }
+          }
+          var name = util.getArg(mapping, 'name', null);
+          if (name !== null) {
+            name = this._names.at(name);
           }
           return {
             source: source,
             line: util.getArg(mapping, 'originalLine', null),
             column: util.getArg(mapping, 'originalColumn', null),
-            name: util.getArg(mapping, 'name', null)
+            name: name
           };
         }
       }
@@ -6342,12 +6809,25 @@ define(function (require, exports, module) {
     };
 
   /**
+   * Return true if we have the source content for every source in the source
+   * map, false otherwise.
+   */
+  BasicSourceMapConsumer.prototype.hasContentsOfAllSources =
+    function BasicSourceMapConsumer_hasContentsOfAllSources() {
+      if (!this.sourcesContent) {
+        return false;
+      }
+      return this.sourcesContent.length >= this._sources.size() &&
+        !this.sourcesContent.some(function (sc) { return sc == null; });
+    };
+
+  /**
    * Returns the original source content. The only argument is the url of the
    * original source file. Returns null if no original source content is
    * availible.
    */
-  SourceMapConsumer.prototype.sourceContentFor =
-    function SourceMapConsumer_sourceContentFor(aSource) {
+  BasicSourceMapConsumer.prototype.sourceContentFor =
+    function SourceMapConsumer_sourceContentFor(aSource, nullOnMissing) {
       if (!this.sourcesContent) {
         return null;
       }
@@ -6379,7 +6859,292 @@ define(function (require, exports, module) {
         }
       }
 
-      throw new Error('"' + aSource + '" is not in the SourceMap.');
+      // This function is used recursively from
+      // IndexedSourceMapConsumer.prototype.sourceContentFor. In that case, we
+      // don't want to throw if we can't find the source - we just want to
+      // return null, so we provide a flag to exit gracefully.
+      if (nullOnMissing) {
+        return null;
+      }
+      else {
+        throw new Error('"' + aSource + '" is not in the SourceMap.');
+      }
+    };
+
+  /**
+   * Returns the generated line and column information for the original source,
+   * line, and column positions provided. The only argument is an object with
+   * the following properties:
+   *
+   *   - source: The filename of the original source.
+   *   - line: The line number in the original source.
+   *   - column: The column number in the original source.
+   *   - bias: Either 'SourceMapConsumer.GREATEST_LOWER_BOUND' or
+   *     'SourceMapConsumer.LEAST_UPPER_BOUND'. Specifies whether to return the
+   *     closest element that is smaller than or greater than the one we are
+   *     searching for, respectively, if the exact element cannot be found.
+   *     Defaults to 'SourceMapConsumer.GREATEST_LOWER_BOUND'.
+   *
+   * and an object is returned with the following properties:
+   *
+   *   - line: The line number in the generated source, or null.
+   *   - column: The column number in the generated source, or null.
+   */
+  BasicSourceMapConsumer.prototype.generatedPositionFor =
+    function SourceMapConsumer_generatedPositionFor(aArgs) {
+      var source = util.getArg(aArgs, 'source');
+      if (this.sourceRoot != null) {
+        source = util.relative(this.sourceRoot, source);
+      }
+      if (!this._sources.has(source)) {
+        return {
+          line: null,
+          column: null,
+          lastColumn: null
+        };
+      }
+      source = this._sources.indexOf(source);
+
+      var needle = {
+        source: source,
+        originalLine: util.getArg(aArgs, 'line'),
+        originalColumn: util.getArg(aArgs, 'column')
+      };
+
+      var index = this._findMapping(
+        needle,
+        this._originalMappings,
+        "originalLine",
+        "originalColumn",
+        util.compareByOriginalPositions,
+        util.getArg(aArgs, 'bias', SourceMapConsumer.GREATEST_LOWER_BOUND)
+      );
+
+      if (index >= 0) {
+        var mapping = this._originalMappings[index];
+
+        if (mapping.source === needle.source) {
+          return {
+            line: util.getArg(mapping, 'generatedLine', null),
+            column: util.getArg(mapping, 'generatedColumn', null),
+            lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
+          };
+        }
+      }
+
+      return {
+        line: null,
+        column: null,
+        lastColumn: null
+      };
+    };
+
+  exports.BasicSourceMapConsumer = BasicSourceMapConsumer;
+
+  /**
+   * An IndexedSourceMapConsumer instance represents a parsed source map which
+   * we can query for information. It differs from BasicSourceMapConsumer in
+   * that it takes "indexed" source maps (i.e. ones with a "sections" field) as
+   * input.
+   *
+   * The only parameter is a raw source map (either as a JSON string, or already
+   * parsed to an object). According to the spec for indexed source maps, they
+   * have the following attributes:
+   *
+   *   - version: Which version of the source map spec this map is following.
+   *   - file: Optional. The generated file this source map is associated with.
+   *   - sections: A list of section definitions.
+   *
+   * Each value under the "sections" field has two fields:
+   *   - offset: The offset into the original specified at which this section
+   *       begins to apply, defined as an object with a "line" and "column"
+   *       field.
+   *   - map: A source map definition. This source map could also be indexed,
+   *       but doesn't have to be.
+   *
+   * Instead of the "map" field, it's also possible to have a "url" field
+   * specifying a URL to retrieve a source map from, but that's currently
+   * unsupported.
+   *
+   * Here's an example source map, taken from the source map spec[0], but
+   * modified to omit a section which uses the "url" field.
+   *
+   *  {
+   *    version : 3,
+   *    file: "app.js",
+   *    sections: [{
+   *      offset: {line:100, column:10},
+   *      map: {
+   *        version : 3,
+   *        file: "section.js",
+   *        sources: ["foo.js", "bar.js"],
+   *        names: ["src", "maps", "are", "fun"],
+   *        mappings: "AAAA,E;;ABCDE;"
+   *      }
+   *    }],
+   *  }
+   *
+   * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit#heading=h.535es3xeprgt
+   */
+  function IndexedSourceMapConsumer(aSourceMap) {
+    var sourceMap = aSourceMap;
+    if (typeof aSourceMap === 'string') {
+      sourceMap = JSON.parse(aSourceMap.replace(/^\)\]\}'/, ''));
+    }
+
+    var version = util.getArg(sourceMap, 'version');
+    var sections = util.getArg(sourceMap, 'sections');
+
+    if (version != this._version) {
+      throw new Error('Unsupported version: ' + version);
+    }
+
+    this._sources = new ArraySet();
+    this._names = new ArraySet();
+
+    var lastOffset = {
+      line: -1,
+      column: 0
+    };
+    this._sections = sections.map(function (s) {
+      if (s.url) {
+        // The url field will require support for asynchronicity.
+        // See https://github.com/mozilla/source-map/issues/16
+        throw new Error('Support for url field in sections not implemented.');
+      }
+      var offset = util.getArg(s, 'offset');
+      var offsetLine = util.getArg(offset, 'line');
+      var offsetColumn = util.getArg(offset, 'column');
+
+      if (offsetLine < lastOffset.line ||
+          (offsetLine === lastOffset.line && offsetColumn < lastOffset.column)) {
+        throw new Error('Section offsets must be ordered and non-overlapping.');
+      }
+      lastOffset = offset;
+
+      return {
+        generatedOffset: {
+          // The offset fields are 0-based, but we use 1-based indices when
+          // encoding/decoding from VLQ.
+          generatedLine: offsetLine + 1,
+          generatedColumn: offsetColumn + 1
+        },
+        consumer: new SourceMapConsumer(util.getArg(s, 'map'))
+      }
+    });
+  }
+
+  IndexedSourceMapConsumer.prototype = Object.create(SourceMapConsumer.prototype);
+  IndexedSourceMapConsumer.prototype.constructor = SourceMapConsumer;
+
+  /**
+   * The version of the source mapping spec that we are consuming.
+   */
+  IndexedSourceMapConsumer.prototype._version = 3;
+
+  /**
+   * The list of original sources.
+   */
+  Object.defineProperty(IndexedSourceMapConsumer.prototype, 'sources', {
+    get: function () {
+      var sources = [];
+      for (var i = 0; i < this._sections.length; i++) {
+        for (var j = 0; j < this._sections[i].consumer.sources.length; j++) {
+          sources.push(this._sections[i].consumer.sources[j]);
+        }
+      };
+      return sources;
+    }
+  });
+
+  /**
+   * Returns the original source, line, and column information for the generated
+   * source's line and column positions provided. The only argument is an object
+   * with the following properties:
+   *
+   *   - line: The line number in the generated source.
+   *   - column: The column number in the generated source.
+   *
+   * and an object is returned with the following properties:
+   *
+   *   - source: The original source file, or null.
+   *   - line: The line number in the original source, or null.
+   *   - column: The column number in the original source, or null.
+   *   - name: The original identifier, or null.
+   */
+  IndexedSourceMapConsumer.prototype.originalPositionFor =
+    function IndexedSourceMapConsumer_originalPositionFor(aArgs) {
+      var needle = {
+        generatedLine: util.getArg(aArgs, 'line'),
+        generatedColumn: util.getArg(aArgs, 'column')
+      };
+
+      // Find the section containing the generated position we're trying to map
+      // to an original position.
+      var sectionIndex = binarySearch.search(needle, this._sections,
+        function(needle, section) {
+          var cmp = needle.generatedLine - section.generatedOffset.generatedLine;
+          if (cmp) {
+            return cmp;
+          }
+
+          return (needle.generatedColumn -
+                  section.generatedOffset.generatedColumn);
+        });
+      var section = this._sections[sectionIndex];
+
+      if (!section) {
+        return {
+          source: null,
+          line: null,
+          column: null,
+          name: null
+        };
+      }
+
+      return section.consumer.originalPositionFor({
+        line: needle.generatedLine -
+          (section.generatedOffset.generatedLine - 1),
+        column: needle.generatedColumn -
+          (section.generatedOffset.generatedLine === needle.generatedLine
+           ? section.generatedOffset.generatedColumn - 1
+           : 0),
+        bias: aArgs.bias
+      });
+    };
+
+  /**
+   * Return true if we have the source content for every source in the source
+   * map, false otherwise.
+   */
+  IndexedSourceMapConsumer.prototype.hasContentsOfAllSources =
+    function IndexedSourceMapConsumer_hasContentsOfAllSources() {
+      return this._sections.every(function (s) {
+        return s.consumer.hasContentsOfAllSources();
+      });
+    };
+
+  /**
+   * Returns the original source content. The only argument is the url of the
+   * original source file. Returns null if no original source content is
+   * available.
+   */
+  IndexedSourceMapConsumer.prototype.sourceContentFor =
+    function IndexedSourceMapConsumer_sourceContentFor(aSource, nullOnMissing) {
+      for (var i = 0; i < this._sections.length; i++) {
+        var section = this._sections[i];
+
+        var content = section.consumer.sourceContentFor(aSource, true);
+        if (content) {
+          return content;
+        }
+      }
+      if (nullOnMissing) {
+        return null;
+      }
+      else {
+        throw new Error('"' + aSource + '" is not in the SourceMap.');
+      }
     };
 
   /**
@@ -6396,152 +7161,95 @@ define(function (require, exports, module) {
    *   - line: The line number in the generated source, or null.
    *   - column: The column number in the generated source, or null.
    */
-  SourceMapConsumer.prototype.generatedPositionFor =
-    function SourceMapConsumer_generatedPositionFor(aArgs) {
-      var needle = {
-        source: util.getArg(aArgs, 'source'),
-        originalLine: util.getArg(aArgs, 'line'),
-        originalColumn: util.getArg(aArgs, 'column')
-      };
+  IndexedSourceMapConsumer.prototype.generatedPositionFor =
+    function IndexedSourceMapConsumer_generatedPositionFor(aArgs) {
+      for (var i = 0; i < this._sections.length; i++) {
+        var section = this._sections[i];
 
-      if (this.sourceRoot != null) {
-        needle.source = util.relative(this.sourceRoot, needle.source);
-      }
-
-      var index = this._findMapping(needle,
-                                    this._originalMappings,
-                                    "originalLine",
-                                    "originalColumn",
-                                    util.compareByOriginalPositions);
-
-      if (index >= 0) {
-        var mapping = this._originalMappings[index];
-
-        return {
-          line: util.getArg(mapping, 'generatedLine', null),
-          column: util.getArg(mapping, 'generatedColumn', null),
-          lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
-        };
+        // Only consider this section if the requested source is in the list of
+        // sources of the consumer.
+        if (section.consumer.sources.indexOf(util.getArg(aArgs, 'source')) === -1) {
+          continue;
+        }
+        var generatedPosition = section.consumer.generatedPositionFor(aArgs);
+        if (generatedPosition) {
+          var ret = {
+            line: generatedPosition.line +
+              (section.generatedOffset.generatedLine - 1),
+            column: generatedPosition.column +
+              (section.generatedOffset.generatedLine === generatedPosition.line
+               ? section.generatedOffset.generatedColumn - 1
+               : 0)
+          };
+          return ret;
+        }
       }
 
       return {
         line: null,
-        column: null,
-        lastColumn: null
+        column: null
       };
     };
 
   /**
-   * Returns all generated line and column information for the original source
-   * and line provided. The only argument is an object with the following
-   * properties:
-   *
-   *   - source: The filename of the original source.
-   *   - line: The line number in the original source.
-   *
-   * and an array of objects is returned, each with the following properties:
-   *
-   *   - line: The line number in the generated source, or null.
-   *   - column: The column number in the generated source, or null.
+   * Parse the mappings in a string in to a data structure which we can easily
+   * query (the ordered arrays in the `this.__generatedMappings` and
+   * `this.__originalMappings` properties).
    */
-  SourceMapConsumer.prototype.allGeneratedPositionsFor =
-    function SourceMapConsumer_allGeneratedPositionsFor(aArgs) {
-      // When there is no exact match, SourceMapConsumer.prototype._findMapping
-      // returns the index of the closest mapping less than the needle. By
-      // setting needle.originalColumn to Infinity, we thus find the last
-      // mapping for the given line, provided such a mapping exists.
-      var needle = {
-        source: util.getArg(aArgs, 'source'),
-        originalLine: util.getArg(aArgs, 'line'),
-        originalColumn: Infinity
-      };
+  IndexedSourceMapConsumer.prototype._parseMappings =
+    function IndexedSourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+      this.__generatedMappings = [];
+      this.__originalMappings = [];
+      for (var i = 0; i < this._sections.length; i++) {
+        var section = this._sections[i];
+        var sectionMappings = section.consumer._generatedMappings;
+        for (var j = 0; j < sectionMappings.length; j++) {
+          var mapping = sectionMappings[i];
 
-      if (this.sourceRoot != null) {
-        needle.source = util.relative(this.sourceRoot, needle.source);
-      }
+          var source = section.consumer._sources.at(mapping.source);
+          if (section.consumer.sourceRoot !== null) {
+            source = util.join(section.consumer.sourceRoot, source);
+          }
+          this._sources.add(source);
+          source = this._sources.indexOf(source);
 
-      var mappings = [];
+          var name = section.consumer._names.at(mapping.name);
+          this._names.add(name);
+          name = this._names.indexOf(name);
 
-      var index = this._findMapping(needle,
-                                    this._originalMappings,
-                                    "originalLine",
-                                    "originalColumn",
-                                    util.compareByOriginalPositions);
-      if (index >= 0) {
-        var mapping = this._originalMappings[index];
+          // The mappings coming from the consumer for the section have
+          // generated positions relative to the start of the section, so we
+          // need to offset them to be relative to the start of the concatenated
+          // generated file.
+          var adjustedMapping = {
+            source: source,
+            generatedLine: mapping.generatedLine +
+              (section.generatedOffset.generatedLine - 1),
+            generatedColumn: mapping.column +
+              (section.generatedOffset.generatedLine === mapping.generatedLine)
+              ? section.generatedOffset.generatedColumn - 1
+              : 0,
+            originalLine: mapping.originalLine,
+            originalColumn: mapping.originalColumn,
+            name: name
+          };
 
-        while (mapping && mapping.originalLine === needle.originalLine) {
-          mappings.push({
-            line: util.getArg(mapping, 'generatedLine', null),
-            column: util.getArg(mapping, 'generatedColumn', null),
-            lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
-          });
-
-          mapping = this._originalMappings[--index];
-        }
-      }
-
-      return mappings.reverse();
-    };
-
-  SourceMapConsumer.GENERATED_ORDER = 1;
-  SourceMapConsumer.ORIGINAL_ORDER = 2;
-
-  /**
-   * Iterate over each mapping between an original source/line/column and a
-   * generated line/column in this source map.
-   *
-   * @param Function aCallback
-   *        The function that is called with each mapping.
-   * @param Object aContext
-   *        Optional. If specified, this object will be the value of `this` every
-   *        time that `aCallback` is called.
-   * @param aOrder
-   *        Either `SourceMapConsumer.GENERATED_ORDER` or
-   *        `SourceMapConsumer.ORIGINAL_ORDER`. Specifies whether you want to
-   *        iterate over the mappings sorted by the generated file's line/column
-   *        order or the original's source/line/column order, respectively. Defaults to
-   *        `SourceMapConsumer.GENERATED_ORDER`.
-   */
-  SourceMapConsumer.prototype.eachMapping =
-    function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
-      var context = aContext || null;
-      var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
-
-      var mappings;
-      switch (order) {
-      case SourceMapConsumer.GENERATED_ORDER:
-        mappings = this._generatedMappings;
-        break;
-      case SourceMapConsumer.ORIGINAL_ORDER:
-        mappings = this._originalMappings;
-        break;
-      default:
-        throw new Error("Unknown order of iteration.");
-      }
-
-      var sourceRoot = this.sourceRoot;
-      mappings.map(function (mapping) {
-        var source = mapping.source;
-        if (source != null && sourceRoot != null) {
-          source = util.join(sourceRoot, source);
-        }
-        return {
-          source: source,
-          generatedLine: mapping.generatedLine,
-          generatedColumn: mapping.generatedColumn,
-          originalLine: mapping.originalLine,
-          originalColumn: mapping.originalColumn,
-          name: mapping.name
+          this.__generatedMappings.push(adjustedMapping);
+          if (typeof adjustedMapping.originalLine === 'number') {
+            this.__originalMappings.push(adjustedMapping);
+          }
         };
-      }).forEach(aCallback, context);
+      };
+
+      quickSort(this.__generatedMappings, util.compareByGeneratedPositionsDeflated);
+      quickSort(this.__originalMappings, util.compareByOriginalPositions);
     };
 
-  exports.SourceMapConsumer = SourceMapConsumer;
+  exports.IndexedSourceMapConsumer = IndexedSourceMapConsumer;
 
 });
 
-},{"./array-set":41,"./base64-vlq":42,"./binary-search":44,"./util":49,"amdefine":50}],47:[function(require,module,exports){
+},{"./array-set":41,"./base64-vlq":42,"./binary-search":44,"./quick-sort":46,"./util":50,"amdefine":51}],48:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -6841,7 +7549,6 @@ define(function (require, exports, module) {
       var mapping;
 
       var mappings = this._mappings.toArray();
-
       for (var i = 0, len = mappings.length; i < len; i++) {
         mapping = mappings[i];
 
@@ -6854,7 +7561,7 @@ define(function (require, exports, module) {
         }
         else {
           if (i > 0) {
-            if (!util.compareByGeneratedPositions(mapping, mappings[i - 1])) {
+            if (!util.compareByGeneratedPositionsInflated(mapping, mappings[i - 1])) {
               continue;
             }
             result += ',';
@@ -6936,14 +7643,14 @@ define(function (require, exports, module) {
    */
   SourceMapGenerator.prototype.toString =
     function SourceMapGenerator_toString() {
-      return JSON.stringify(this);
+      return JSON.stringify(this.toJSON());
     };
 
   exports.SourceMapGenerator = SourceMapGenerator;
 
 });
 
-},{"./array-set":41,"./base64-vlq":42,"./mapping-list":45,"./util":49,"amdefine":50}],48:[function(require,module,exports){
+},{"./array-set":41,"./base64-vlq":42,"./mapping-list":45,"./util":50,"amdefine":51}],49:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -7359,7 +8066,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./source-map-generator":47,"./util":49,"amdefine":50}],49:[function(require,module,exports){
+},{"./source-map-generator":48,"./util":50,"amdefine":51}],50:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -7560,15 +8267,30 @@ define(function (require, exports, module) {
 
     aRoot = aRoot.replace(/\/$/, '');
 
-    // XXX: It is possible to remove this block, and the tests still pass!
-    var url = urlParse(aRoot);
-    if (aPath.charAt(0) == "/" && url && url.path == "/") {
-      return aPath.slice(1);
+    // It is possible for the path to be above the root. In this case, simply
+    // checking whether the root is a prefix of the path won't work. Instead, we
+    // need to remove components from the root one by one, until either we find
+    // a prefix that fits, or we run out of components to remove.
+    var level = 0;
+    while (aPath.indexOf(aRoot + '/') !== 0) {
+      var index = aRoot.lastIndexOf("/");
+      if (index < 0) {
+        return aPath;
+      }
+
+      // If the only part of the root that is left is the scheme (i.e. http://,
+      // file:///, etc.), one or more slashes (/), or simply nothing at all, we
+      // have exhausted all components, so the path is not relative to the root.
+      aRoot = aRoot.slice(0, index);
+      if (aRoot.match(/^([^\/]+:\/)?\/*$/)) {
+        return aPath;
+      }
+
+      ++level;
     }
 
-    return aPath.indexOf(aRoot + '/') === 0
-      ? aPath.substr(aRoot.length + 1)
-      : aPath;
+    // Make sure we add a "../" for each component we removed from the root.
+    return Array(level + 1).join("../") + aPath.substr(aRoot.length + 1);
   }
   exports.relative = relative;
 
@@ -7591,12 +8313,6 @@ define(function (require, exports, module) {
   }
   exports.fromSetString = fromSetString;
 
-  function strcmp(aStr1, aStr2) {
-    var s1 = aStr1 || "";
-    var s2 = aStr2 || "";
-    return (s1 > s2) - (s1 < s2);
-  }
-
   /**
    * Comparator between two mappings where the original positions are compared.
    *
@@ -7606,81 +8322,123 @@ define(function (require, exports, module) {
    * stubbed out mapping.
    */
   function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
-    var cmp;
-
-    cmp = strcmp(mappingA.source, mappingB.source);
-    if (cmp) {
+    var cmp = mappingA.source - mappingB.source;
+    if (cmp !== 0) {
       return cmp;
     }
 
     cmp = mappingA.originalLine - mappingB.originalLine;
-    if (cmp) {
+    if (cmp !== 0) {
       return cmp;
     }
 
     cmp = mappingA.originalColumn - mappingB.originalColumn;
-    if (cmp || onlyCompareOriginal) {
+    if (cmp !== 0 || onlyCompareOriginal) {
       return cmp;
     }
 
-    cmp = strcmp(mappingA.name, mappingB.name);
-    if (cmp) {
+    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
+    if (cmp !== 0) {
       return cmp;
     }
 
     cmp = mappingA.generatedLine - mappingB.generatedLine;
-    if (cmp) {
+    if (cmp !== 0) {
       return cmp;
     }
 
-    return mappingA.generatedColumn - mappingB.generatedColumn;
+    return mappingA.name - mappingB.name;
   };
   exports.compareByOriginalPositions = compareByOriginalPositions;
 
   /**
-   * Comparator between two mappings where the generated positions are
-   * compared.
+   * Comparator between two mappings with deflated source and name indices where
+   * the generated positions are compared.
    *
    * Optionally pass in `true` as `onlyCompareGenerated` to consider two
    * mappings with the same generated line and column, but different
    * source/name/original line and column the same. Useful when searching for a
    * mapping with a stubbed out mapping.
    */
-  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
-    var cmp;
-
-    cmp = mappingA.generatedLine - mappingB.generatedLine;
-    if (cmp) {
+  function compareByGeneratedPositionsDeflated(mappingA, mappingB, onlyCompareGenerated) {
+    var cmp = mappingA.generatedLine - mappingB.generatedLine;
+    if (cmp !== 0) {
       return cmp;
     }
 
     cmp = mappingA.generatedColumn - mappingB.generatedColumn;
-    if (cmp || onlyCompareGenerated) {
+    if (cmp !== 0 || onlyCompareGenerated) {
       return cmp;
     }
 
-    cmp = strcmp(mappingA.source, mappingB.source);
-    if (cmp) {
+    cmp = mappingA.source - mappingB.source;
+    if (cmp !== 0) {
       return cmp;
     }
 
     cmp = mappingA.originalLine - mappingB.originalLine;
-    if (cmp) {
+    if (cmp !== 0) {
       return cmp;
     }
 
     cmp = mappingA.originalColumn - mappingB.originalColumn;
-    if (cmp) {
+    if (cmp !== 0) {
+      return cmp;
+    }
+
+    return mappingA.name - mappingB.name;
+  };
+  exports.compareByGeneratedPositionsDeflated = compareByGeneratedPositionsDeflated;
+
+  function strcmp(aStr1, aStr2) {
+    if (aStr1 === aStr2) {
+      return 0;
+    }
+
+    if (aStr1 > aStr2) {
+      return 1;
+    }
+
+    return -1;
+  }
+
+  /**
+   * Comparator between two mappings with inflated source and name strings where
+   * the generated positions are compared.
+   */
+  function compareByGeneratedPositionsInflated(mappingA, mappingB) {
+    var cmp = mappingA.generatedLine - mappingB.generatedLine;
+    if (cmp !== 0) {
+      return cmp;
+    }
+
+    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
+    if (cmp !== 0) {
+      return cmp;
+    }
+
+    cmp = strcmp(mappingA.source, mappingB.source);
+    if (cmp !== 0) {
+      return cmp;
+    }
+
+    cmp = mappingA.originalLine - mappingB.originalLine;
+    if (cmp !== 0) {
+      return cmp;
+    }
+
+    cmp = mappingA.originalColumn - mappingB.originalColumn;
+    if (cmp !== 0) {
       return cmp;
     }
 
     return strcmp(mappingA.name, mappingB.name);
   };
-  exports.compareByGeneratedPositions = compareByGeneratedPositions;
+  exports.compareByGeneratedPositionsInflated = compareByGeneratedPositionsInflated;
 
 });
 
-},{"amdefine":50}],50:[function(require,module,exports){
+},{"amdefine":51}],51:[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 1.0.0 Copyright (c) 2011-2015, The Dojo Foundation All Rights Reserved.
@@ -7986,7 +8744,7 @@ module.exports = amdefine;
 
 }).call(this,require('_process'),"/node_modules/handlebars/node_modules/source-map/node_modules/amdefine/amdefine.js")
 
-},{"_process":9,"path":8}],51:[function(require,module,exports){
+},{"_process":9,"path":8}],52:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -17198,7 +17956,7 @@ return jQuery;
 
 }));
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -29554,7 +30312,7 @@ return jQuery;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29581,7 +30339,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":171}],54:[function(require,module,exports){
+},{"./focusNode":172}],55:[function(require,module,exports){
 /**
  * Copyright 2013-2015 Facebook, Inc.
  * All rights reserved.
@@ -30076,7 +30834,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":66,"./EventPropagators":71,"./ExecutionEnvironment":72,"./FallbackCompositionState":73,"./SyntheticCompositionEvent":145,"./SyntheticInputEvent":149,"./keyOf":193}],55:[function(require,module,exports){
+},{"./EventConstants":67,"./EventPropagators":72,"./ExecutionEnvironment":73,"./FallbackCompositionState":74,"./SyntheticCompositionEvent":146,"./SyntheticInputEvent":150,"./keyOf":194}],56:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -30201,7 +30959,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30384,7 +31142,7 @@ module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
 
-},{"./CSSProperty":55,"./ExecutionEnvironment":72,"./camelizeStyleName":160,"./dangerousStyleValue":165,"./hyphenateStyleName":185,"./memoizeStringOnly":195,"./warning":206,"_process":9}],57:[function(require,module,exports){
+},{"./CSSProperty":56,"./ExecutionEnvironment":73,"./camelizeStyleName":161,"./dangerousStyleValue":166,"./hyphenateStyleName":186,"./memoizeStringOnly":196,"./warning":207,"_process":9}],58:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30485,7 +31243,7 @@ module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./PooledClass":79,"./invariant":187,"_process":9}],58:[function(require,module,exports){
+},{"./Object.assign":79,"./PooledClass":80,"./invariant":188,"_process":9}],59:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -30867,7 +31625,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":66,"./EventPluginHub":68,"./EventPropagators":71,"./ExecutionEnvironment":72,"./ReactUpdates":139,"./SyntheticEvent":147,"./isEventSupported":188,"./isTextInputElement":190,"./keyOf":193}],59:[function(require,module,exports){
+},{"./EventConstants":67,"./EventPluginHub":69,"./EventPropagators":72,"./ExecutionEnvironment":73,"./ReactUpdates":140,"./SyntheticEvent":148,"./isEventSupported":189,"./isTextInputElement":191,"./keyOf":194}],60:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -30892,7 +31650,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31031,7 +31789,7 @@ module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
 
-},{"./Danger":63,"./ReactMultiChildUpdateTypes":124,"./invariant":187,"./setTextContent":201,"_process":9}],61:[function(require,module,exports){
+},{"./Danger":64,"./ReactMultiChildUpdateTypes":125,"./invariant":188,"./setTextContent":202,"_process":9}],62:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31331,7 +32089,7 @@ module.exports = DOMProperty;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],62:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],63:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31524,7 +32282,7 @@ module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
 
-},{"./DOMProperty":61,"./quoteAttributeValueForBrowser":199,"./warning":206,"_process":9}],63:[function(require,module,exports){
+},{"./DOMProperty":62,"./quoteAttributeValueForBrowser":200,"./warning":207,"_process":9}],64:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31712,7 +32470,7 @@ module.exports = Danger;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":72,"./createNodesFromMarkup":164,"./emptyFunction":166,"./getMarkupWrap":179,"./invariant":187,"_process":9}],64:[function(require,module,exports){
+},{"./ExecutionEnvironment":73,"./createNodesFromMarkup":165,"./emptyFunction":167,"./getMarkupWrap":180,"./invariant":188,"_process":9}],65:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -31751,7 +32509,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":193}],65:[function(require,module,exports){
+},{"./keyOf":194}],66:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -31891,7 +32649,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":66,"./EventPropagators":71,"./ReactMount":122,"./SyntheticMouseEvent":151,"./keyOf":193}],66:[function(require,module,exports){
+},{"./EventConstants":67,"./EventPropagators":72,"./ReactMount":123,"./SyntheticMouseEvent":152,"./keyOf":194}],67:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -31963,7 +32721,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":192}],67:[function(require,module,exports){
+},{"./keyMirror":193}],68:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32054,7 +32812,7 @@ module.exports = EventListener;
 
 }).call(this,require('_process'))
 
-},{"./emptyFunction":166,"_process":9}],68:[function(require,module,exports){
+},{"./emptyFunction":167,"_process":9}],69:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32333,7 +33091,7 @@ module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
 
-},{"./EventPluginRegistry":69,"./EventPluginUtils":70,"./accumulateInto":157,"./forEachAccumulated":172,"./invariant":187,"_process":9}],69:[function(require,module,exports){
+},{"./EventPluginRegistry":70,"./EventPluginUtils":71,"./accumulateInto":158,"./forEachAccumulated":173,"./invariant":188,"_process":9}],70:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32614,7 +33372,7 @@ module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],70:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],71:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32836,7 +33594,7 @@ module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":66,"./invariant":187,"_process":9}],71:[function(require,module,exports){
+},{"./EventConstants":67,"./invariant":188,"_process":9}],72:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32979,7 +33737,7 @@ module.exports = EventPropagators;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":66,"./EventPluginHub":68,"./accumulateInto":157,"./forEachAccumulated":172,"_process":9}],72:[function(require,module,exports){
+},{"./EventConstants":67,"./EventPluginHub":69,"./accumulateInto":158,"./forEachAccumulated":173,"_process":9}],73:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33023,7 +33781,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33114,7 +33872,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
 
-},{"./Object.assign":78,"./PooledClass":79,"./getTextContentAccessor":182}],74:[function(require,module,exports){
+},{"./Object.assign":79,"./PooledClass":80,"./getTextContentAccessor":183}],75:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33325,7 +34083,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":61,"./ExecutionEnvironment":72}],75:[function(require,module,exports){
+},{"./DOMProperty":62,"./ExecutionEnvironment":73}],76:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33482,7 +34240,7 @@ module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
 
-},{"./ReactPropTypes":130,"./invariant":187,"_process":9}],76:[function(require,module,exports){
+},{"./ReactPropTypes":131,"./invariant":188,"_process":9}],77:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -33540,7 +34298,7 @@ module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
 
-},{"./ReactBrowserEventEmitter":82,"./accumulateInto":157,"./forEachAccumulated":172,"./invariant":187,"_process":9}],77:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":83,"./accumulateInto":158,"./forEachAccumulated":173,"./invariant":188,"_process":9}],78:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33598,7 +34356,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":66,"./emptyFunction":166}],78:[function(require,module,exports){
+},{"./EventConstants":67,"./emptyFunction":167}],79:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -33647,7 +34405,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33764,7 +34522,7 @@ module.exports = PooledClass;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],80:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],81:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33917,7 +34675,7 @@ module.exports = React;
 
 }).call(this,require('_process'))
 
-},{"./EventPluginUtils":70,"./ExecutionEnvironment":72,"./Object.assign":78,"./ReactChildren":84,"./ReactClass":85,"./ReactComponent":86,"./ReactContext":90,"./ReactCurrentOwner":91,"./ReactDOM":92,"./ReactDOMTextComponent":103,"./ReactDefaultInjection":106,"./ReactElement":109,"./ReactElementValidator":110,"./ReactInstanceHandles":118,"./ReactMount":122,"./ReactPerf":127,"./ReactPropTypes":130,"./ReactReconciler":133,"./ReactServerRendering":136,"./findDOMNode":169,"./onlyChild":196,"_process":9}],81:[function(require,module,exports){
+},{"./EventPluginUtils":71,"./ExecutionEnvironment":73,"./Object.assign":79,"./ReactChildren":85,"./ReactClass":86,"./ReactComponent":87,"./ReactContext":91,"./ReactCurrentOwner":92,"./ReactDOM":93,"./ReactDOMTextComponent":104,"./ReactDefaultInjection":107,"./ReactElement":110,"./ReactElementValidator":111,"./ReactInstanceHandles":119,"./ReactMount":123,"./ReactPerf":128,"./ReactPropTypes":131,"./ReactReconciler":134,"./ReactServerRendering":137,"./findDOMNode":170,"./onlyChild":197,"_process":9}],82:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33948,7 +34706,7 @@ var ReactBrowserComponentMixin = {
 
 module.exports = ReactBrowserComponentMixin;
 
-},{"./findDOMNode":169}],82:[function(require,module,exports){
+},{"./findDOMNode":170}],83:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -34301,7 +35059,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":66,"./EventPluginHub":68,"./EventPluginRegistry":69,"./Object.assign":78,"./ReactEventEmitterMixin":113,"./ViewportMetrics":156,"./isEventSupported":188}],83:[function(require,module,exports){
+},{"./EventConstants":67,"./EventPluginHub":69,"./EventPluginRegistry":70,"./Object.assign":79,"./ReactEventEmitterMixin":114,"./ViewportMetrics":157,"./isEventSupported":189}],84:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -34428,7 +35186,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 
-},{"./ReactReconciler":133,"./flattenChildren":170,"./instantiateReactComponent":186,"./shouldUpdateReactComponent":203}],84:[function(require,module,exports){
+},{"./ReactReconciler":134,"./flattenChildren":171,"./instantiateReactComponent":187,"./shouldUpdateReactComponent":204}],85:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -34582,7 +35340,7 @@ module.exports = ReactChildren;
 
 }).call(this,require('_process'))
 
-},{"./PooledClass":79,"./ReactFragment":115,"./traverseAllChildren":205,"./warning":206,"_process":9}],85:[function(require,module,exports){
+},{"./PooledClass":80,"./ReactFragment":116,"./traverseAllChildren":206,"./warning":207,"_process":9}],86:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -35529,7 +36287,7 @@ module.exports = ReactClass;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./ReactComponent":86,"./ReactCurrentOwner":91,"./ReactElement":109,"./ReactErrorUtils":112,"./ReactInstanceMap":119,"./ReactLifeCycle":120,"./ReactPropTypeLocationNames":128,"./ReactPropTypeLocations":129,"./ReactUpdateQueue":138,"./invariant":187,"./keyMirror":192,"./keyOf":193,"./warning":206,"_process":9}],86:[function(require,module,exports){
+},{"./Object.assign":79,"./ReactComponent":87,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactErrorUtils":113,"./ReactInstanceMap":120,"./ReactLifeCycle":121,"./ReactPropTypeLocationNames":129,"./ReactPropTypeLocations":130,"./ReactUpdateQueue":139,"./invariant":188,"./keyMirror":193,"./keyOf":194,"./warning":207,"_process":9}],87:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -35684,7 +36442,7 @@ module.exports = ReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactUpdateQueue":138,"./invariant":187,"./warning":206,"_process":9}],87:[function(require,module,exports){
+},{"./ReactUpdateQueue":139,"./invariant":188,"./warning":207,"_process":9}],88:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -35731,7 +36489,7 @@ var ReactComponentBrowserEnvironment = {
 
 module.exports = ReactComponentBrowserEnvironment;
 
-},{"./ReactDOMIDOperations":96,"./ReactMount":122}],88:[function(require,module,exports){
+},{"./ReactDOMIDOperations":97,"./ReactMount":123}],89:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -35793,7 +36551,7 @@ module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],89:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],90:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -36707,7 +37465,7 @@ module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./ReactComponentEnvironment":88,"./ReactContext":90,"./ReactCurrentOwner":91,"./ReactElement":109,"./ReactElementValidator":110,"./ReactInstanceMap":119,"./ReactLifeCycle":120,"./ReactNativeComponent":125,"./ReactPerf":127,"./ReactPropTypeLocationNames":128,"./ReactPropTypeLocations":129,"./ReactReconciler":133,"./ReactUpdates":139,"./emptyObject":167,"./invariant":187,"./shouldUpdateReactComponent":203,"./warning":206,"_process":9}],90:[function(require,module,exports){
+},{"./Object.assign":79,"./ReactComponentEnvironment":89,"./ReactContext":91,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactElementValidator":111,"./ReactInstanceMap":120,"./ReactLifeCycle":121,"./ReactNativeComponent":126,"./ReactPerf":128,"./ReactPropTypeLocationNames":129,"./ReactPropTypeLocations":130,"./ReactReconciler":134,"./ReactUpdates":140,"./emptyObject":168,"./invariant":188,"./shouldUpdateReactComponent":204,"./warning":207,"_process":9}],91:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -36786,7 +37544,7 @@ module.exports = ReactContext;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./emptyObject":167,"./warning":206,"_process":9}],91:[function(require,module,exports){
+},{"./Object.assign":79,"./emptyObject":168,"./warning":207,"_process":9}],92:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -36820,7 +37578,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -37000,7 +37758,7 @@ module.exports = ReactDOM;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":109,"./ReactElementValidator":110,"./mapObject":194,"_process":9}],93:[function(require,module,exports){
+},{"./ReactElement":110,"./ReactElementValidator":111,"./mapObject":195,"_process":9}],94:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37064,7 +37822,7 @@ var ReactDOMButton = ReactClass.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":53,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109,"./keyMirror":192}],94:[function(require,module,exports){
+},{"./AutoFocusMixin":54,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110,"./keyMirror":193}],95:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -37575,7 +38333,7 @@ module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
 
-},{"./CSSPropertyOperations":56,"./DOMProperty":61,"./DOMPropertyOperations":62,"./Object.assign":78,"./ReactBrowserEventEmitter":82,"./ReactComponentBrowserEnvironment":87,"./ReactMount":122,"./ReactMultiChild":123,"./ReactPerf":127,"./escapeTextContentForBrowser":168,"./invariant":187,"./isEventSupported":188,"./keyOf":193,"./warning":206,"_process":9}],95:[function(require,module,exports){
+},{"./CSSPropertyOperations":57,"./DOMProperty":62,"./DOMPropertyOperations":63,"./Object.assign":79,"./ReactBrowserEventEmitter":83,"./ReactComponentBrowserEnvironment":88,"./ReactMount":123,"./ReactMultiChild":124,"./ReactPerf":128,"./escapeTextContentForBrowser":169,"./invariant":188,"./isEventSupported":189,"./keyOf":194,"./warning":207,"_process":9}],96:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37624,7 +38382,7 @@ var ReactDOMForm = ReactClass.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":66,"./LocalEventTrapMixin":76,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109}],96:[function(require,module,exports){
+},{"./EventConstants":67,"./LocalEventTrapMixin":77,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110}],97:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -37793,7 +38551,7 @@ module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
 
-},{"./CSSPropertyOperations":56,"./DOMChildrenOperations":60,"./DOMPropertyOperations":62,"./ReactMount":122,"./ReactPerf":127,"./invariant":187,"./setInnerHTML":200,"_process":9}],97:[function(require,module,exports){
+},{"./CSSPropertyOperations":57,"./DOMChildrenOperations":61,"./DOMPropertyOperations":63,"./ReactMount":123,"./ReactPerf":128,"./invariant":188,"./setInnerHTML":201,"_process":9}],98:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37838,7 +38596,7 @@ var ReactDOMIframe = ReactClass.createClass({
 
 module.exports = ReactDOMIframe;
 
-},{"./EventConstants":66,"./LocalEventTrapMixin":76,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109}],98:[function(require,module,exports){
+},{"./EventConstants":67,"./LocalEventTrapMixin":77,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110}],99:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37884,7 +38642,7 @@ var ReactDOMImg = ReactClass.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":66,"./LocalEventTrapMixin":76,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109}],99:[function(require,module,exports){
+},{"./EventConstants":67,"./LocalEventTrapMixin":77,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110}],100:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -38062,7 +38820,7 @@ module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
 
-},{"./AutoFocusMixin":53,"./DOMPropertyOperations":62,"./LinkedValueUtils":75,"./Object.assign":78,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109,"./ReactMount":122,"./ReactUpdates":139,"./invariant":187,"_process":9}],100:[function(require,module,exports){
+},{"./AutoFocusMixin":54,"./DOMPropertyOperations":63,"./LinkedValueUtils":76,"./Object.assign":79,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110,"./ReactMount":123,"./ReactUpdates":140,"./invariant":188,"_process":9}],101:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -38115,7 +38873,7 @@ module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
 
-},{"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109,"./warning":206,"_process":9}],101:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110,"./warning":207,"_process":9}],102:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38293,7 +39051,7 @@ var ReactDOMSelect = ReactClass.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":53,"./LinkedValueUtils":75,"./Object.assign":78,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109,"./ReactUpdates":139}],102:[function(require,module,exports){
+},{"./AutoFocusMixin":54,"./LinkedValueUtils":76,"./Object.assign":79,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110,"./ReactUpdates":140}],103:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38506,7 +39264,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":72,"./getNodeForCharacterOffset":180,"./getTextContentAccessor":182}],103:[function(require,module,exports){
+},{"./ExecutionEnvironment":73,"./getNodeForCharacterOffset":181,"./getTextContentAccessor":183}],104:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38623,7 +39381,7 @@ assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 
-},{"./DOMPropertyOperations":62,"./Object.assign":78,"./ReactComponentBrowserEnvironment":87,"./ReactDOMComponent":94,"./escapeTextContentForBrowser":168}],104:[function(require,module,exports){
+},{"./DOMPropertyOperations":63,"./Object.assign":79,"./ReactComponentBrowserEnvironment":88,"./ReactDOMComponent":95,"./escapeTextContentForBrowser":169}],105:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -38764,7 +39522,7 @@ module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
 
-},{"./AutoFocusMixin":53,"./DOMPropertyOperations":62,"./LinkedValueUtils":75,"./Object.assign":78,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactElement":109,"./ReactUpdates":139,"./invariant":187,"./warning":206,"_process":9}],105:[function(require,module,exports){
+},{"./AutoFocusMixin":54,"./DOMPropertyOperations":63,"./LinkedValueUtils":76,"./Object.assign":79,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactElement":110,"./ReactUpdates":140,"./invariant":188,"./warning":207,"_process":9}],106:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38837,7 +39595,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":78,"./ReactUpdates":139,"./Transaction":155,"./emptyFunction":166}],106:[function(require,module,exports){
+},{"./Object.assign":79,"./ReactUpdates":140,"./Transaction":156,"./emptyFunction":167}],107:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -38997,7 +39755,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"./BeforeInputEventPlugin":54,"./ChangeEventPlugin":58,"./ClientReactRootIndex":59,"./DefaultEventPluginOrder":64,"./EnterLeaveEventPlugin":65,"./ExecutionEnvironment":72,"./HTMLDOMPropertyConfig":74,"./MobileSafariClickEventPlugin":77,"./ReactBrowserComponentMixin":81,"./ReactClass":85,"./ReactComponentBrowserEnvironment":87,"./ReactDOMButton":93,"./ReactDOMComponent":94,"./ReactDOMForm":95,"./ReactDOMIDOperations":96,"./ReactDOMIframe":97,"./ReactDOMImg":98,"./ReactDOMInput":99,"./ReactDOMOption":100,"./ReactDOMSelect":101,"./ReactDOMTextComponent":103,"./ReactDOMTextarea":104,"./ReactDefaultBatchingStrategy":105,"./ReactDefaultPerf":107,"./ReactElement":109,"./ReactEventListener":114,"./ReactInjection":116,"./ReactInstanceHandles":118,"./ReactMount":122,"./ReactReconcileTransaction":132,"./SVGDOMPropertyConfig":140,"./SelectEventPlugin":141,"./ServerReactRootIndex":142,"./SimpleEventPlugin":143,"./createFullPageComponent":163,"_process":9}],107:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":55,"./ChangeEventPlugin":59,"./ClientReactRootIndex":60,"./DefaultEventPluginOrder":65,"./EnterLeaveEventPlugin":66,"./ExecutionEnvironment":73,"./HTMLDOMPropertyConfig":75,"./MobileSafariClickEventPlugin":78,"./ReactBrowserComponentMixin":82,"./ReactClass":86,"./ReactComponentBrowserEnvironment":88,"./ReactDOMButton":94,"./ReactDOMComponent":95,"./ReactDOMForm":96,"./ReactDOMIDOperations":97,"./ReactDOMIframe":98,"./ReactDOMImg":99,"./ReactDOMInput":100,"./ReactDOMOption":101,"./ReactDOMSelect":102,"./ReactDOMTextComponent":104,"./ReactDOMTextarea":105,"./ReactDefaultBatchingStrategy":106,"./ReactDefaultPerf":108,"./ReactElement":110,"./ReactEventListener":115,"./ReactInjection":117,"./ReactInstanceHandles":119,"./ReactMount":123,"./ReactReconcileTransaction":133,"./SVGDOMPropertyConfig":141,"./SelectEventPlugin":142,"./ServerReactRootIndex":143,"./SimpleEventPlugin":144,"./createFullPageComponent":164,"_process":9}],108:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -39263,7 +40021,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":61,"./ReactDefaultPerfAnalysis":108,"./ReactMount":122,"./ReactPerf":127,"./performanceNow":198}],108:[function(require,module,exports){
+},{"./DOMProperty":62,"./ReactDefaultPerfAnalysis":109,"./ReactMount":123,"./ReactPerf":128,"./performanceNow":199}],109:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -39469,7 +40227,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":78}],109:[function(require,module,exports){
+},{"./Object.assign":79}],110:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -39778,7 +40536,7 @@ module.exports = ReactElement;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./ReactContext":90,"./ReactCurrentOwner":91,"./warning":206,"_process":9}],110:[function(require,module,exports){
+},{"./Object.assign":79,"./ReactContext":91,"./ReactCurrentOwner":92,"./warning":207,"_process":9}],111:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -40244,7 +41002,7 @@ module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
 
-},{"./ReactCurrentOwner":91,"./ReactElement":109,"./ReactFragment":115,"./ReactNativeComponent":125,"./ReactPropTypeLocationNames":128,"./ReactPropTypeLocations":129,"./getIteratorFn":178,"./invariant":187,"./warning":206,"_process":9}],111:[function(require,module,exports){
+},{"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactFragment":116,"./ReactNativeComponent":126,"./ReactPropTypeLocationNames":129,"./ReactPropTypeLocations":130,"./getIteratorFn":179,"./invariant":188,"./warning":207,"_process":9}],112:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -40340,7 +41098,7 @@ module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":109,"./ReactInstanceMap":119,"./invariant":187,"_process":9}],112:[function(require,module,exports){
+},{"./ReactElement":110,"./ReactInstanceMap":120,"./invariant":188,"_process":9}],113:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40372,7 +41130,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],113:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40422,7 +41180,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":68}],114:[function(require,module,exports){
+},{"./EventPluginHub":69}],115:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40605,7 +41363,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":67,"./ExecutionEnvironment":72,"./Object.assign":78,"./PooledClass":79,"./ReactInstanceHandles":118,"./ReactMount":122,"./ReactUpdates":139,"./getEventTarget":177,"./getUnboundedScrollPosition":183}],115:[function(require,module,exports){
+},{"./EventListener":68,"./ExecutionEnvironment":73,"./Object.assign":79,"./PooledClass":80,"./ReactInstanceHandles":119,"./ReactMount":123,"./ReactUpdates":140,"./getEventTarget":178,"./getUnboundedScrollPosition":184}],116:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -40791,7 +41549,7 @@ module.exports = ReactFragment;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":109,"./warning":206,"_process":9}],116:[function(require,module,exports){
+},{"./ReactElement":110,"./warning":207,"_process":9}],117:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40833,7 +41591,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":61,"./EventPluginHub":68,"./ReactBrowserEventEmitter":82,"./ReactClass":85,"./ReactComponentEnvironment":88,"./ReactDOMComponent":94,"./ReactEmptyComponent":111,"./ReactNativeComponent":125,"./ReactPerf":127,"./ReactRootIndex":135,"./ReactUpdates":139}],117:[function(require,module,exports){
+},{"./DOMProperty":62,"./EventPluginHub":69,"./ReactBrowserEventEmitter":83,"./ReactClass":86,"./ReactComponentEnvironment":89,"./ReactDOMComponent":95,"./ReactEmptyComponent":112,"./ReactNativeComponent":126,"./ReactPerf":128,"./ReactRootIndex":136,"./ReactUpdates":140}],118:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40968,7 +41726,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":102,"./containsNode":161,"./focusNode":171,"./getActiveElement":173}],118:[function(require,module,exports){
+},{"./ReactDOMSelection":103,"./containsNode":162,"./focusNode":172,"./getActiveElement":174}],119:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -41305,7 +42063,7 @@ module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
 
-},{"./ReactRootIndex":135,"./invariant":187,"_process":9}],119:[function(require,module,exports){
+},{"./ReactRootIndex":136,"./invariant":188,"_process":9}],120:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41354,7 +42112,7 @@ var ReactInstanceMap = {
 
 module.exports = ReactInstanceMap;
 
-},{}],120:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 /**
  * Copyright 2015, Facebook, Inc.
  * All rights reserved.
@@ -41391,7 +42149,7 @@ var ReactLifeCycle = {
 
 module.exports = ReactLifeCycle;
 
-},{}],121:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41439,7 +42197,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":158}],122:[function(require,module,exports){
+},{"./adler32":159}],123:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42331,7 +43089,7 @@ module.exports = ReactMount;
 
 }).call(this,require('_process'))
 
-},{"./DOMProperty":61,"./ReactBrowserEventEmitter":82,"./ReactCurrentOwner":91,"./ReactElement":109,"./ReactElementValidator":110,"./ReactEmptyComponent":111,"./ReactInstanceHandles":118,"./ReactInstanceMap":119,"./ReactMarkupChecksum":121,"./ReactPerf":127,"./ReactReconciler":133,"./ReactUpdateQueue":138,"./ReactUpdates":139,"./containsNode":161,"./emptyObject":167,"./getReactRootElementInContainer":181,"./instantiateReactComponent":186,"./invariant":187,"./setInnerHTML":200,"./shouldUpdateReactComponent":203,"./warning":206,"_process":9}],123:[function(require,module,exports){
+},{"./DOMProperty":62,"./ReactBrowserEventEmitter":83,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactElementValidator":111,"./ReactEmptyComponent":112,"./ReactInstanceHandles":119,"./ReactInstanceMap":120,"./ReactMarkupChecksum":122,"./ReactPerf":128,"./ReactReconciler":134,"./ReactUpdateQueue":139,"./ReactUpdates":140,"./containsNode":162,"./emptyObject":168,"./getReactRootElementInContainer":182,"./instantiateReactComponent":187,"./invariant":188,"./setInnerHTML":201,"./shouldUpdateReactComponent":204,"./warning":207,"_process":9}],124:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42761,7 +43519,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactChildReconciler":83,"./ReactComponentEnvironment":88,"./ReactMultiChildUpdateTypes":124,"./ReactReconciler":133}],124:[function(require,module,exports){
+},{"./ReactChildReconciler":84,"./ReactComponentEnvironment":89,"./ReactMultiChildUpdateTypes":125,"./ReactReconciler":134}],125:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42794,7 +43552,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":192}],125:[function(require,module,exports){
+},{"./keyMirror":193}],126:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -42902,7 +43660,7 @@ module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./invariant":187,"_process":9}],126:[function(require,module,exports){
+},{"./Object.assign":79,"./invariant":188,"_process":9}],127:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -43015,7 +43773,7 @@ module.exports = ReactOwner;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],127:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],128:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -43120,7 +43878,7 @@ module.exports = ReactPerf;
 
 }).call(this,require('_process'))
 
-},{"_process":9}],128:[function(require,module,exports){
+},{"_process":9}],129:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -43149,7 +43907,7 @@ module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
 
-},{"_process":9}],129:[function(require,module,exports){
+},{"_process":9}],130:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43173,7 +43931,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":192}],130:[function(require,module,exports){
+},{"./keyMirror":193}],131:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43522,7 +44280,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":109,"./ReactFragment":115,"./ReactPropTypeLocationNames":128,"./emptyFunction":166}],131:[function(require,module,exports){
+},{"./ReactElement":110,"./ReactFragment":116,"./ReactPropTypeLocationNames":129,"./emptyFunction":167}],132:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43578,7 +44336,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":78,"./PooledClass":79,"./ReactBrowserEventEmitter":82}],132:[function(require,module,exports){
+},{"./Object.assign":79,"./PooledClass":80,"./ReactBrowserEventEmitter":83}],133:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43754,7 +44512,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":57,"./Object.assign":78,"./PooledClass":79,"./ReactBrowserEventEmitter":82,"./ReactInputSelection":117,"./ReactPutListenerQueue":131,"./Transaction":155}],133:[function(require,module,exports){
+},{"./CallbackQueue":58,"./Object.assign":79,"./PooledClass":80,"./ReactBrowserEventEmitter":83,"./ReactInputSelection":118,"./ReactPutListenerQueue":132,"./Transaction":156}],134:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -43879,7 +44637,7 @@ module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
 
-},{"./ReactElementValidator":110,"./ReactRef":134,"_process":9}],134:[function(require,module,exports){
+},{"./ReactElementValidator":111,"./ReactRef":135,"_process":9}],135:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43950,7 +44708,7 @@ ReactRef.detachRefs = function(instance, element) {
 
 module.exports = ReactRef;
 
-},{"./ReactOwner":126}],135:[function(require,module,exports){
+},{"./ReactOwner":127}],136:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43981,7 +44739,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],136:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -44064,7 +44822,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":109,"./ReactInstanceHandles":118,"./ReactMarkupChecksum":121,"./ReactServerRenderingTransaction":137,"./emptyObject":167,"./instantiateReactComponent":186,"./invariant":187,"_process":9}],137:[function(require,module,exports){
+},{"./ReactElement":110,"./ReactInstanceHandles":119,"./ReactMarkupChecksum":122,"./ReactServerRenderingTransaction":138,"./emptyObject":168,"./instantiateReactComponent":187,"./invariant":188,"_process":9}],138:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -44177,7 +44935,7 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":57,"./Object.assign":78,"./PooledClass":79,"./ReactPutListenerQueue":131,"./Transaction":155,"./emptyFunction":166}],138:[function(require,module,exports){
+},{"./CallbackQueue":58,"./Object.assign":79,"./PooledClass":80,"./ReactPutListenerQueue":132,"./Transaction":156,"./emptyFunction":167}],139:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -44477,7 +45235,7 @@ module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./ReactCurrentOwner":91,"./ReactElement":109,"./ReactInstanceMap":119,"./ReactLifeCycle":120,"./ReactUpdates":139,"./invariant":187,"./warning":206,"_process":9}],139:[function(require,module,exports){
+},{"./Object.assign":79,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactInstanceMap":120,"./ReactLifeCycle":121,"./ReactUpdates":140,"./invariant":188,"./warning":207,"_process":9}],140:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -44760,7 +45518,7 @@ module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
 
-},{"./CallbackQueue":57,"./Object.assign":78,"./PooledClass":79,"./ReactCurrentOwner":91,"./ReactPerf":127,"./ReactReconciler":133,"./Transaction":155,"./invariant":187,"./warning":206,"_process":9}],140:[function(require,module,exports){
+},{"./CallbackQueue":58,"./Object.assign":79,"./PooledClass":80,"./ReactCurrentOwner":92,"./ReactPerf":128,"./ReactReconciler":134,"./Transaction":156,"./invariant":188,"./warning":207,"_process":9}],141:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -44854,7 +45612,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":61}],141:[function(require,module,exports){
+},{"./DOMProperty":62}],142:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45049,7 +45807,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":66,"./EventPropagators":71,"./ReactInputSelection":117,"./SyntheticEvent":147,"./getActiveElement":173,"./isTextInputElement":190,"./keyOf":193,"./shallowEqual":202}],142:[function(require,module,exports){
+},{"./EventConstants":67,"./EventPropagators":72,"./ReactInputSelection":118,"./SyntheticEvent":148,"./getActiveElement":174,"./isTextInputElement":191,"./keyOf":194,"./shallowEqual":203}],143:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45080,7 +45838,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],143:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -45509,7 +46267,7 @@ module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":66,"./EventPluginUtils":70,"./EventPropagators":71,"./SyntheticClipboardEvent":144,"./SyntheticDragEvent":146,"./SyntheticEvent":147,"./SyntheticFocusEvent":148,"./SyntheticKeyboardEvent":150,"./SyntheticMouseEvent":151,"./SyntheticTouchEvent":152,"./SyntheticUIEvent":153,"./SyntheticWheelEvent":154,"./getEventCharCode":174,"./invariant":187,"./keyOf":193,"./warning":206,"_process":9}],144:[function(require,module,exports){
+},{"./EventConstants":67,"./EventPluginUtils":71,"./EventPropagators":72,"./SyntheticClipboardEvent":145,"./SyntheticDragEvent":147,"./SyntheticEvent":148,"./SyntheticFocusEvent":149,"./SyntheticKeyboardEvent":151,"./SyntheticMouseEvent":152,"./SyntheticTouchEvent":153,"./SyntheticUIEvent":154,"./SyntheticWheelEvent":155,"./getEventCharCode":175,"./invariant":188,"./keyOf":194,"./warning":207,"_process":9}],145:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45554,7 +46312,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
 
-},{"./SyntheticEvent":147}],145:[function(require,module,exports){
+},{"./SyntheticEvent":148}],146:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45599,7 +46357,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticCompositionEvent;
 
-},{"./SyntheticEvent":147}],146:[function(require,module,exports){
+},{"./SyntheticEvent":148}],147:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45638,7 +46396,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":151}],147:[function(require,module,exports){
+},{"./SyntheticMouseEvent":152}],148:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45804,7 +46562,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":78,"./PooledClass":79,"./emptyFunction":166,"./getEventTarget":177}],148:[function(require,module,exports){
+},{"./Object.assign":79,"./PooledClass":80,"./emptyFunction":167,"./getEventTarget":178}],149:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45843,7 +46601,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":153}],149:[function(require,module,exports){
+},{"./SyntheticUIEvent":154}],150:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45889,7 +46647,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticInputEvent;
 
-},{"./SyntheticEvent":147}],150:[function(require,module,exports){
+},{"./SyntheticEvent":148}],151:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -45976,7 +46734,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":153,"./getEventCharCode":174,"./getEventKey":175,"./getEventModifierState":176}],151:[function(require,module,exports){
+},{"./SyntheticUIEvent":154,"./getEventCharCode":175,"./getEventKey":176,"./getEventModifierState":177}],152:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46057,7 +46815,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":153,"./ViewportMetrics":156,"./getEventModifierState":176}],152:[function(require,module,exports){
+},{"./SyntheticUIEvent":154,"./ViewportMetrics":157,"./getEventModifierState":177}],153:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46105,7 +46863,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":153,"./getEventModifierState":176}],153:[function(require,module,exports){
+},{"./SyntheticUIEvent":154,"./getEventModifierState":177}],154:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46167,7 +46925,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":147,"./getEventTarget":177}],154:[function(require,module,exports){
+},{"./SyntheticEvent":148,"./getEventTarget":178}],155:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46228,7 +46986,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":151}],155:[function(require,module,exports){
+},{"./SyntheticMouseEvent":152}],156:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -46470,7 +47228,7 @@ module.exports = Transaction;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],156:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],157:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46499,7 +47257,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{}],157:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -46566,7 +47324,7 @@ module.exports = accumulateInto;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],158:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46600,7 +47358,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],159:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46632,7 +47390,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],160:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -46674,7 +47432,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":159}],161:[function(require,module,exports){
+},{"./camelize":160}],162:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46718,7 +47476,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":191}],162:[function(require,module,exports){
+},{"./isTextNode":192}],163:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46804,7 +47562,7 @@ function createArrayFromMixed(obj) {
 
 module.exports = createArrayFromMixed;
 
-},{"./toArray":204}],163:[function(require,module,exports){
+},{"./toArray":205}],164:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -46867,7 +47625,7 @@ module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactClass":85,"./ReactElement":109,"./invariant":187,"_process":9}],164:[function(require,module,exports){
+},{"./ReactClass":86,"./ReactElement":110,"./invariant":188,"_process":9}],165:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -46958,7 +47716,7 @@ module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":72,"./createArrayFromMixed":162,"./getMarkupWrap":179,"./invariant":187,"_process":9}],165:[function(require,module,exports){
+},{"./ExecutionEnvironment":73,"./createArrayFromMixed":163,"./getMarkupWrap":180,"./invariant":188,"_process":9}],166:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47016,7 +47774,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":55}],166:[function(require,module,exports){
+},{"./CSSProperty":56}],167:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47050,7 +47808,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],167:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -47075,7 +47833,7 @@ module.exports = emptyObject;
 
 }).call(this,require('_process'))
 
-},{"_process":9}],168:[function(require,module,exports){
+},{"_process":9}],169:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47115,7 +47873,7 @@ function escapeTextContentForBrowser(text) {
 
 module.exports = escapeTextContentForBrowser;
 
-},{}],169:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -47189,7 +47947,7 @@ module.exports = findDOMNode;
 
 }).call(this,require('_process'))
 
-},{"./ReactCurrentOwner":91,"./ReactInstanceMap":119,"./ReactMount":122,"./invariant":187,"./isNode":189,"./warning":206,"_process":9}],170:[function(require,module,exports){
+},{"./ReactCurrentOwner":92,"./ReactInstanceMap":120,"./ReactMount":123,"./invariant":188,"./isNode":190,"./warning":207,"_process":9}],171:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -47248,7 +48006,7 @@ module.exports = flattenChildren;
 
 }).call(this,require('_process'))
 
-},{"./traverseAllChildren":205,"./warning":206,"_process":9}],171:[function(require,module,exports){
+},{"./traverseAllChildren":206,"./warning":207,"_process":9}],172:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -47277,7 +48035,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],172:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47308,7 +48066,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],173:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47337,7 +48095,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],174:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47389,7 +48147,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],175:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47494,7 +48252,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":174}],176:[function(require,module,exports){
+},{"./getEventCharCode":175}],177:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47541,7 +48299,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],177:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47572,7 +48330,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],178:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47616,7 +48374,7 @@ function getIteratorFn(maybeIterable) {
 
 module.exports = getIteratorFn;
 
-},{}],179:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -47736,7 +48494,7 @@ module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":72,"./invariant":187,"_process":9}],180:[function(require,module,exports){
+},{"./ExecutionEnvironment":73,"./invariant":188,"_process":9}],181:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47811,7 +48569,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],181:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47846,7 +48604,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],182:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47883,7 +48641,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":72}],183:[function(require,module,exports){
+},{"./ExecutionEnvironment":73}],184:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47923,7 +48681,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],184:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47956,7 +48714,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],185:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47997,7 +48755,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":184}],186:[function(require,module,exports){
+},{"./hyphenate":185}],187:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48136,7 +48894,7 @@ module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":78,"./ReactCompositeComponent":89,"./ReactEmptyComponent":111,"./ReactNativeComponent":125,"./invariant":187,"./warning":206,"_process":9}],187:[function(require,module,exports){
+},{"./Object.assign":79,"./ReactCompositeComponent":90,"./ReactEmptyComponent":112,"./ReactNativeComponent":126,"./invariant":188,"./warning":207,"_process":9}],188:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48194,7 +48952,7 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":9}],188:[function(require,module,exports){
+},{"_process":9}],189:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48259,7 +49017,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":72}],189:[function(require,module,exports){
+},{"./ExecutionEnvironment":73}],190:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48286,7 +49044,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],190:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48329,7 +49087,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],191:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48354,7 +49112,7 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":189}],192:[function(require,module,exports){
+},{"./isNode":190}],193:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48410,7 +49168,7 @@ module.exports = keyMirror;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],193:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],194:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48446,7 +49204,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],194:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48499,7 +49257,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],195:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48532,7 +49290,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48573,7 +49331,7 @@ module.exports = onlyChild;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":109,"./invariant":187,"_process":9}],197:[function(require,module,exports){
+},{"./ReactElement":110,"./invariant":188,"_process":9}],198:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48601,7 +49359,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":72}],198:[function(require,module,exports){
+},{"./ExecutionEnvironment":73}],199:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48629,7 +49387,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":197}],199:[function(require,module,exports){
+},{"./performance":198}],200:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48657,7 +49415,7 @@ function quoteAttributeValueForBrowser(value) {
 
 module.exports = quoteAttributeValueForBrowser;
 
-},{"./escapeTextContentForBrowser":168}],200:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":169}],201:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48746,7 +49504,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":72}],201:[function(require,module,exports){
+},{"./ExecutionEnvironment":73}],202:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48788,7 +49546,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setTextContent;
 
-},{"./ExecutionEnvironment":72,"./escapeTextContentForBrowser":168,"./setInnerHTML":200}],202:[function(require,module,exports){
+},{"./ExecutionEnvironment":73,"./escapeTextContentForBrowser":169,"./setInnerHTML":201}],203:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48832,7 +49590,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],203:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48937,7 +49695,7 @@ module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./warning":206,"_process":9}],204:[function(require,module,exports){
+},{"./warning":207,"_process":9}],205:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -49010,7 +49768,7 @@ module.exports = toArray;
 
 }).call(this,require('_process'))
 
-},{"./invariant":187,"_process":9}],205:[function(require,module,exports){
+},{"./invariant":188,"_process":9}],206:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -49264,7 +50022,7 @@ module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":109,"./ReactFragment":115,"./ReactInstanceHandles":118,"./getIteratorFn":178,"./invariant":187,"./warning":206,"_process":9}],206:[function(require,module,exports){
+},{"./ReactElement":110,"./ReactFragment":116,"./ReactInstanceHandles":119,"./getIteratorFn":179,"./invariant":188,"./warning":207,"_process":9}],207:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -49328,10 +50086,10 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"./emptyFunction":166,"_process":9}],207:[function(require,module,exports){
+},{"./emptyFunction":167,"_process":9}],208:[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":80}]},{},[1])
+},{"./lib/React":81}]},{},[1])
 
 
 //# sourceMappingURL=leaflet-components.js.map
