@@ -10,13 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://fgnass.github.io/spin.js/spin.min.js"></script>
-    <script src="leaflet.spin.js"></script>
     <script type="text/jsx" src="leaflet-components.js"></script>
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -31,8 +25,7 @@
                   lon="-95.4012915"
                   minZoom="10"
                   maxZoom="17"
-                  zoom="10"
-                  tileProvider="http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png">
+                  zoom="10">
         <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
           {"Hay, it works! My address is {{address}}."}
         </LeafletLayer>
