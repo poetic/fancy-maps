@@ -1,6 +1,7 @@
 var babelify = require('babelify');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
+var concatCss = require('gulp-concat-css');
 var del = require('del');
 var gulp   = require('gulp');
 var gutil = require('gulp-util');
@@ -53,6 +54,15 @@ gulp.task('clean', function() {
   return del(paths.out.dist.dir);
 });
 
+gulp.task('css', function() {
+  return gulp.src([
+    './node_modules/leaflet.markercluster/dist/MarkerCluster.css',
+    './node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
+    './node_modules/leaflet/dist/leaflet.css'
+  ]).pipe(concatCss('vendor.css'))
+    .pipe(gulp.dest(paths.out.dist.dir));
+});
+
 gulp.task('default', ['server']);
 
 gulp.task('lint', function() {
@@ -63,7 +73,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('server', ['babel', 'lint'], function() {
+gulp.task('server', ['babel', 'css', 'lint'], function() {
   gulp.watch(paths.in.lib.js, ['babel']);
 
   gulp.watch([paths.in.lib.js, paths.in.examples.js], ['lint']);
