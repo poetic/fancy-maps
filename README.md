@@ -4,7 +4,7 @@ React components for creating Leaflet maps. [DEMO](http://poetic.github.io/fancy
 Quick Start
 -----------
 To use the Fancy Maps components in your project:
-  - Include `dist/leaflet-components.js`*
+  - Include `dist/leaflet-components.js`
   - Include `dist/vendor.css`
   - Start using Fancy Maps components (see the demo) or full example below
 
