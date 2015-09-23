@@ -14,7 +14,11 @@ Note that you will need to include the in-browser [JSXTransformer](https://faceb
 
 Development
 -----
-While developing the components themselves, use `gulp` to start the live reload server then navigate to http://localhost:8000. See `gulpfile.js` for more gulp tasks.
+  - Install dependencies with `npm install`
+  - Start the live reload server using `gulp`
+  - Point your browser to [http://localhost:8000](http://localhost:8000)
+
+See `gulpfile.js` for more gulp tasks.
 
 Components
 ----------
