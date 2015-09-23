@@ -42,6 +42,13 @@
                     cluster="true" className="real-section">
           {`
             <h2>{{Address}}</h2>
+
+            {{#if-eq Lot 20}}
+              <h4>Lot is 20</h4>
+            {{else}}
+              <h4>Lot is not 20</h4>
+            {{/if-eq}}
+
             <ul>
               <li>Lot: {{Lot}}</li>
               <li>Block: {{Block}}</li>
