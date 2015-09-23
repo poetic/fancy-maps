@@ -6,12 +6,10 @@
     <meta charset="utf-8">
     <meta name="description" content="Demo leaflet-react map">
     <meta name="author" content="osxi">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
+    <link rel="stylesheet" href="fancy-maps.css" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-    <script type="text/jsx" src="leaflet-components.js"></script>
+    <script type="text/jsx" src="fancy-maps.js"></script>
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
       <![endif]-->
@@ -44,6 +42,13 @@
                     cluster="true" className="real-section">
           {`
             <h2>{{Address}}</h2>
+
+            {{#if-eq Lot 20}}
+              <h4>Lot is 20</h4>
+            {{else}}
+              <h4>Lot is not 20</h4>
+            {{/if-eq}}
+
             <ul>
               <li>Lot: {{Lot}}</li>
               <li>Block: {{Block}}</li>
