@@ -24,7 +24,8 @@ var paths = {
     dist: {
       all: './dist/**',
       dir: './dist',
-      bundle: 'fancy-maps.js'
+      jsBundleName: 'fancy-maps.js',
+      cssBundleName: 'fancy-maps.css'
     },
     examples: {
       all: './examples/**'
@@ -43,7 +44,7 @@ gulp.task('babel', ['clean'], function() {
   }).transform(babelify);
 
   return b.bundle()
-    .pipe(source(paths.out.dist.bundle))
+    .pipe(source(paths.out.dist.jsBundleName))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
@@ -60,7 +61,7 @@ gulp.task('css', function() {
     './node_modules/leaflet.markercluster/dist/MarkerCluster.css',
     './node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
     './node_modules/leaflet/dist/leaflet.css'
-  ]).pipe(concatCss('vendor.css'))
+  ]).pipe(concatCss(paths.out.dist.cssBundleName))
     .pipe(gulp.dest(paths.out.dist.dir));
 });
 

@@ -5,7 +5,7 @@ Quick Start
 -----------
 To use the Fancy Maps components in your project:
   - Include `dist/fancy-maps.js`
-  - Include `dist/vendor.css`
+  - Include `dist/fancy-maps.css`
   - Start using Fancy Maps components (see the demo) or full example below
 
 You can obtain these files by running the default Gulp task (`gulp` command with no arguments) and then looking in `dist/`.
