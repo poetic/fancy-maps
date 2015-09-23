@@ -23,7 +23,8 @@ var paths = {
   out: {
     dist: {
       all: './dist/**',
-      dir: './dist'
+      dir: './dist',
+      bundle: 'fancy-maps.js'
     },
     examples: {
       all: './examples/**'
@@ -42,7 +43,7 @@ gulp.task('babel', ['clean'], function() {
   }).transform(babelify);
 
   return b.bundle()
-    .pipe(source('leaflet-components.js'))
+    .pipe(source(paths.out.dist.bundle))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
