@@ -4,11 +4,10 @@ React components for creating Leaflet maps. [DEMO](http://poetic.github.io/fancy
 Quick Start
 -----------
 To use the Fancy Maps components in your project:
-  - Include `dist/fancy-maps.js`
-  - Include `dist/fancy-maps.css`
+  - Include [`dist/fancy-maps.min.js`](https://raw.githubusercontent.com/poetic/fancy-maps/master/dist/fancy-maps.min.js)
+  - Include [`dist/fancy-maps.min.css`](https://raw.githubusercontent.com/poetic/fancy-maps/master/dist/fancy-maps.min.css)
+  - Optional: Include the [JSXTransformer](https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js)
   - Start using Fancy Maps components (see the demo) or full example below
-
-You can obtain these files by running the default Gulp task (`gulp` command with no arguments) and then looking in `dist/`.
 
 Note that you will need to include the in-browser [JSXTransformer](https://facebook.github.io/react/docs/tooling-integration.html#in-browser-jsx-transform) while developing your maps and then [precompile](https://facebook.github.io/react/docs/tooling-integration.html#productionizing-precompiled-jsx) the JSX when you're ready for production, if you choose to use JSX.
 
