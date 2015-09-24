@@ -4,8 +4,8 @@ React components for creating Leaflet maps. [DEMO](http://poetic.github.io/fancy
 Quick Start
 -----------
 To use the Fancy Maps components in your project:
-  - Include [`dist/fancy-maps.min.js`](https://raw.githubusercontent.com/poetic/fancy-maps/master/dist/fancy-maps.min.js)
-  - Include [`dist/fancy-maps.min.css`](https://raw.githubusercontent.com/poetic/fancy-maps/master/dist/fancy-maps.min.css)
+  - Include [`dist/fancy-maps.min.js`](https://rawgit.com/poetic/fancy-maps/master/dist/fancy-maps.min.js)
+  - Include [`dist/fancy-maps.min.css`](https://rawgit.com/poetic/fancy-maps/master/dist/fancy-maps.min.css)
   - Optional: Include the [JSXTransformer](https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js)
   - Start using Fancy Maps components (see the demo) or full example below
 
