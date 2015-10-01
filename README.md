@@ -60,7 +60,9 @@ Full working example is located at examples/basic-map.html
               lon="-95.4012915"
               minZoom="10"
               maxZoom="17"
-              zoom="10">
+              zoom="10"
+              tileProvider='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+              >
     <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
       {"Community address is {{address}}."}
     </LeafletLayer>
