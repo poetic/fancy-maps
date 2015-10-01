@@ -40,6 +40,11 @@ Example: ``<LeafletLegend>{`<h3>Key</h3>`}</LeafletLegend>``
 
 Note: Must be a child of `<LeafletMap>`
 
+#### `Tiles`
+You can set the background tiles you perfer. Some good ones to choose from are here: https://leaflet-extras.github.io/leaflet-providers/preview/
+
+The default tile is ``http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png``
+
 Full Example
 ------------
 Full working example is located at examples/basic-map.html
