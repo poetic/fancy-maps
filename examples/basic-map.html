@@ -7,11 +7,11 @@
     <meta name="description" content="Demo leaflet-react map">
     <meta name="author" content="osxi">
 
-    <link rel="stylesheet" href="../dist/fancy-maps.css" />
+    <link rel="stylesheet" href="../fancy-maps.css" />
     <link rel="stylesheet" href="styles.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-    <script type="text/jsx" src="../dist/fancy-maps.js"></script>
+    <script type="text/jsx" src="../fancy-maps.js"></script>
 
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -27,8 +27,7 @@
                   minZoom="10"
                   maxZoom="17"
                   zoom="10"
-                  tileProvider='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                  >
+                  tileProvider='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'>
 
         <LeafletLegend>
           {`
@@ -47,8 +46,9 @@
         <LeafletLayer showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
 
         <LeafletLayer showThreshold="10" hideThreshold="17"
-                    dataSource="https://dl.dropboxusercontent.com/u/46535302/Section%2012.geojson"
-                    cluster="true" className="real-section">
+                      dataSource="https://dl.dropboxusercontent.com/u/46535302/Section%2012.geojson"
+                      cluster="true" className="real-section"
+                      featureClassPrefix="block" featureClassName="Block">
           {`
             <h2>{{Address}}</h2>
 

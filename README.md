@@ -61,24 +61,28 @@ Full working example is located at examples/basic-map.html
               minZoom="10"
               maxZoom="17"
               zoom="10"
-              tileProvider='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-              >
-    <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
-      {"Community address is {{address}}."}
-    </LeafletLayer>
+              tileProvider='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'>
+
     <LeafletLegend>
       {`
         <h2>Legend</h2>
         <div class="body">
-          <div class="water">Water</div><br />
-          <div class="polygon">Polygon</div><br />
+        <div class="water">Water</div><br />
+        <div class="polygon">Polygon</div><br />
         </div>
       `}
     </LeafletLegend>
+
+    <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
+      {"Community address is {{address}}."}
+    </LeafletLayer>
+
     <LeafletLayer showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
+
     <LeafletLayer showThreshold="10" hideThreshold="17"
-                dataSource="https://dl.dropboxusercontent.com/u/46535302/Section%2012.geojson"
-                cluster="true" className="real-section">
+                  dataSource="https://dl.dropboxusercontent.com/u/46535302/Section%2012.geojson"
+                  cluster="true" className="real-section"
+                  featureClassPrefix="block" featureClassName="Block">
       {`
         <h2>{{Address}}</h2>
 

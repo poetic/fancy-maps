@@ -250,10 +250,23 @@ var LeafletMap = (function (_React$Component) {
             _layer.bindPopup(template(ctx));
           }
         },
-        style: function style() {
-          return { className: layer.props.className };
-        }
+
+        style: this.styleGeoJson.bind(this, layer)
       });
+    }
+  }, {
+    key: 'styleGeoJson',
+    value: function styleGeoJson(layer, feature) {
+      var prefix = layer.props.featureClassPrefix || 'feature';
+      var className = layer.props.featureClassName;
+      var classValue = feature.properties[className];
+
+      if (className !== undefined && classValue !== null) {
+        return { className: prefix + '-' + classValue };
+      } else {
+        console.log('default');
+        return { className: prefix + '-default' };
+      }
     }
   }, {
     key: 'createMarkerCluster',

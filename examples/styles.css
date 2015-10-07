@@ -4,6 +4,26 @@ html, body, #container, .map {
   margin: 0;
 }
 
+.block-1 {
+  fill: orange;
+}
+
+.block-2 {
+  fill: green;
+}
+
+.block-3 {
+  fill: red;
+}
+
+.block-4 {
+  fill: purple;
+}
+
+.block-default {
+  // Not used
+}
+
 .blank-icon {
   display: none;
 }
