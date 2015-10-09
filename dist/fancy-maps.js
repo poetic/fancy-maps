@@ -139,25 +139,46 @@ var LeafletMap = (function (_React$Component) {
   }, {
     key: 'zoomHandler',
     value: function zoomHandler() {
+      var _this3 = this;
+
       var map = this.state.map;
-      var zoom = map.getZoom() + '';
+      var zoom = map.getZoom();
 
       return this.state.layerGroups.map(function (layerGroup) {
-        var showZoom = layerGroup.props.showThreshold;
-        var hideZoom = layerGroup.props.hideThreshold;
+        var showZoom = layerGroup.props.showThreshold * 1;
+        var hideZoom = layerGroup.props.hideThreshold * 1;
+        var zoomOptions = _this3.getZoomOptions(layerGroup, hideZoom);
+        var hideCluster = false;
 
         if (zoom >= showZoom && zoom <= hideZoom) {
-          if (zoom === hideZoom && layerGroup.cluster) {
+          if (_lodash2['default'].includes(zoomOptions, zoom) && !!layerGroup.cluster) {
+            hideCluster = true;
             map.addLayer(layerGroup.clusterPolygons);
-          } else if (layerGroup.clusterPolygons !== undefined) {
+          } else if (!!layerGroup.clusterPolygons) {
             map.removeLayer(layerGroup.clusterPolygons);
           }
 
-          map.addLayer(layerGroup);
+          if (hideCluster) {
+            map.removeLayer(layerGroup);
+          } else {
+            map.addLayer(layerGroup);
+          }
         } else {
           map.removeLayer(layerGroup);
         }
       });
+    }
+  }, {
+    key: 'getZoomOptions',
+    value: function getZoomOptions(layerGroup, hideZoom) {
+      var zoomOffset = layerGroup.props.disableClusteringAtZoom || hideZoom;
+      var zoomOptions = [hideZoom];
+      3;
+      if (!!zoomOffset) {
+        zoomOptions = _lodash2['default'].range(zoomOffset, hideZoom + 1);
+      }
+
+      return zoomOptions;
     }
   }, {
     key: 'fetchJson',
@@ -175,18 +196,18 @@ var LeafletMap = (function (_React$Component) {
   }, {
     key: 'fetchJsonForLayer',
     value: function fetchJsonForLayer(layer) {
-      var _this3 = this;
+      var _this4 = this;
 
       return new Promise(function (resolve) {
         (0, _jquery.get)(layer.props.dataSource).then(function (json) {
-          var parsedJson = _this3.parseJSON(json);
-          var features = _this3.bindPopups(layer, parsedJson);
-          var newLayerGroup = _this3.createLayer(layer, features, parsedJson);
+          var parsedJson = _this4.parseJSON(json);
+          var features = _this4.bindPopups(layer, parsedJson);
+          var newLayerGroup = _this4.createLayer(layer, features, parsedJson);
 
           newLayerGroup.meta = parsedJson.features[0].properties;
           newLayerGroup.props = layer.props;
 
-          _this3.setState({ layerGroups: _this3.state.layerGroups.concat([newLayerGroup]) });
+          _this4.setState({ layerGroups: _this4.state.layerGroups.concat([newLayerGroup]) });
 
           resolve();
         });
@@ -242,7 +263,7 @@ var LeafletMap = (function (_React$Component) {
     value: function bindPopups(layer, json) {
       return _leaflet2['default'].geoJson(json, {
         onEachFeature: function onEachFeature(feature, _layer) {
-          if (layer.props.children !== undefined) {
+          if (!!layer.props.children) {
             var hbs = layer.props.children;
             var ctx = feature.properties;
             var template = (0, _utilCompileTemplate2['default'])(hbs);
@@ -261,10 +282,9 @@ var LeafletMap = (function (_React$Component) {
       var className = layer.props.featureClassName;
       var classValue = feature.properties[className];
 
-      if (className !== undefined && classValue !== null) {
+      if (!!className && !!classValue) {
         return { className: prefix + '-' + classValue };
       } else {
-        console.log('default');
         return { className: prefix + '-default' };
       }
     }
