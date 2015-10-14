@@ -6,10 +6,9 @@
     <meta charset="utf-8">
     <meta name="description" content="Demo leaflet-react map">
     <meta name="author" content="osxi">
-    <link rel="stylesheet" href="fancy-maps.css" />
+    <link rel="stylesheet" href="fancy-maps.min.css" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-    <script type="text/jsx" src="fancy-maps.js"></script>
+    <script type="text/javascript" src="fancy-maps.min.js"></script>
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
       <![endif]-->
@@ -17,47 +16,33 @@
   <body>
     <div id="container"></div>
 
-    <script type="text/jsx">
-      React.render(
-      <LeafletMap lat="29.817178"
-                  lon="-95.4012915"
-                  minZoom="10"
-                  maxZoom="17"
-                  zoom="10">
-        <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
-          {"Hay, it works! My address is {{address}}."}
-        </LeafletLayer>
-        <LeafletLegend>
-          {`
-            <h2>Legend</h2>
-            <div class="body">
-              <div class="water">Water</div><br />
-              <div class="polygon">Polygon</div><br />
-            </div>
-          `}
-        </LeafletLegend>
-        <LeafletLayer showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
-        <LeafletLayer showThreshold="10" hideThreshold="17"
-                    dataSource="https://dl.dropboxusercontent.com/u/46535302/Section%2012.geojson"
-                    cluster="true" className="real-section">
-          {`
-            <h2>{{Address}}</h2>
-
-            {{#if-eq Lot 20}}
-              <h4>Lot is 20</h4>
-            {{else}}
-              <h4>Lot is not 20</h4>
-            {{/if-eq}}
-
-            <ul>
-              <li>Lot: {{Lot}}</li>
-              <li>Block: {{Block}}</li>
-              <li>Section: {{Section}}</li>
-            </ul>
-          `}
-        </LeafletLayer>
-      </LeafletMap>, document.getElementById('container')
-      );
+    <script type="text/javascript">
+React.render(React.createElement(
+  LeafletMap,
+  { lat: "29.817178",
+    lon: "-95.4012915",
+    minZoom: "10",
+    maxZoom: "17",
+    zoom: "10" },
+  React.createElement(
+    LeafletLayer,
+    { showThreshold: "10", hideThreshold: "12", dataSource: "communities.geojson" },
+    "Hay, it works! My address is {{address}}."
+  ),
+  React.createElement(
+    LeafletLegend,
+    null,
+    "\n            <h2>Legend</h2>\n            <div class=\"body\">\n              <div class=\"water\">Water</div><br />\n              <div class=\"polygon\">Polygon</div><br />\n            </div>\n          "
+  ),
+  React.createElement(LeafletLayer, { showThreshold: "13", hideThreshold: "14", dataSource: "sections.geojson" }),
+  React.createElement(
+    LeafletLayer,
+    { showThreshold: "10", hideThreshold: "17",
+      dataSource: "big_community.geojson",
+      cluster: "true", className: "real-section" },
+    "\n            <h2>{{Address}}</h2>\n\n            {{#if-eq Lot 20}}\n              <h4>Lot is 20</h4>\n            {{else}}\n              <h4>Lot is not 20</h4>\n            {{/if-eq}}\n\n            <ul>\n              <li>Lot: {{Lot}}</li>\n              <li>Block: {{Block}}</li>\n              <li>Section: {{Section}}</li>\n            </ul>\n          "
+  )
+), document.getElementById('container'));
     </script>
   </body>
 </html>
