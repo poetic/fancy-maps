@@ -61,6 +61,7 @@ Full working example is located at examples/basic-map.html
               minZoom="10"
               maxZoom="17"
               zoom="10"
+              maxBounds={[[29.9150, -95.7314], [29.9533, -95.6901]]}
               tileProvider='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'>
 
     <LeafletLegend>

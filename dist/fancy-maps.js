@@ -92,6 +92,10 @@ var LeafletMap = (function (_React$Component) {
         try {
           var map = _this2.createMap();
 
+          if (!!_this2.props.maxBounds) {
+            map.setMaxBounds(_this2.getMaxBounds());
+          }
+
           map.setView([_this2.props.lat, _this2.props.lon], (0, _utilGetConfig2['default'])(_this2, 'zoom'));
 
           new _leaflet2['default'].Control.Zoom({
@@ -118,6 +122,13 @@ var LeafletMap = (function (_React$Component) {
         layers: [_leaflet2['default'].tileLayer((0, _utilGetConfig2['default'])(this, 'tileProvider'))],
         attributionControl: false
       });
+    }
+  }, {
+    key: 'getMaxBounds',
+    value: function getMaxBounds() {
+      var maxBounds = this.props.maxBounds;
+
+      return maxBounds;
     }
   }, {
     key: 'addLegendToMap',
