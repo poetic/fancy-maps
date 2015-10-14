@@ -24,6 +24,7 @@
     "babelify": "^6.3.0",
     "browserify": "^11.0.1",
     "del": "^2.0.2",
+    "es6-promise": "^3.0.2",
     "gulp": "^3.9.0",
     "gulp-concat-css": "^2.2.0",
     "gulp-jshint": "^1.11.2",
