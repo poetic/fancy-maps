@@ -40,14 +40,14 @@
           `}
         </LeafletLegend>
 
-        <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson">
+        <LeafletLayer showThreshold="10" hideThreshold="12" dataSource="communities.geojson" openPopupsOnHover="true">
           {"Community address is {{address}}."}
         </LeafletLayer>
 
         <LeafletLayer showThreshold="13" hideThreshold="14" dataSource="sections.geojson" />
 
         <LeafletLayer showThreshold="10" hideThreshold="17" disableClusteringAtZoom="16"
-                      dataSource="big_community.geojson"
+                      dataSource="big_community.geojson" openPopupsOnHover="true"
                       cluster="true" className="real-section"
                       featureClassPrefix="block" featureClassName="Block">
           {`

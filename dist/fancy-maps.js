@@ -7,7 +7,7 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -211,11 +211,15 @@ var LeafletMap = (function (_React$Component) {
     value: function fetchJsonForLayer(layer) {
       var _this4 = this;
 
+      var _layer$props = layer.props;
+      var dataSource = _layer$props.dataSource;
+      var openPopupsOnHover = _layer$props.openPopupsOnHover;
+
       return new _es6Promise.Promise(function (resolve, reject) {
-        if (!!layer.props.dataSource) {
-          return (0, _jquery.getJSON)(layer.props.dataSource).then(function (json) {
+        if (!!dataSource) {
+          return (0, _jquery.getJSON)(dataSource).then(function (json) {
             var parsedJson = _this4.parseJSON(json);
-            var features = _this4.bindPopups(layer, parsedJson);
+            var features = _this4.bindPopups(layer, parsedJson, openPopupsOnHover);
             var newLayerGroup = _this4.createLayer(layer, features, parsedJson);
 
             newLayerGroup.meta = parsedJson.features[0].properties;
@@ -278,14 +282,29 @@ var LeafletMap = (function (_React$Component) {
   }, {
     key: 'bindPopups',
     value: function bindPopups(layer, json) {
+      var hoverEnabled = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+
       return _leaflet2['default'].geoJson(json, {
         onEachFeature: function onEachFeature(feature, _layer) {
+          _layer.on({
+            mouseover: function mouseover(e) {
+              if (hoverEnabled) {
+                this.openPopup(e.latlng);
+              }
+            },
+            mouseout: function mouseout() {
+              if (hoverEnabled) {
+                this.closePopup();
+              }
+            }
+          });
+
           if (!!layer.props.children) {
             var hbs = layer.props.children;
             var ctx = feature.properties;
             var template = (0, _utilCompileTemplate2['default'])(hbs);
 
-            _layer.bindPopup(template(ctx));
+            _layer.bindPopup(template(ctx), { offset: _leaflet2['default'].point(0, -5) });
           }
         },
 
