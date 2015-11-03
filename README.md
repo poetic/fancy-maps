@@ -1,4 +1,4 @@
-# fancy-maps
+# fancy-maps [![devDependency Status](https://david-dm.org/poetic/fancy-maps/dev-status.svg)](https://david-dm.org/poetic/fancy-maps#info=devDependencies)
 React components for creating Leaflet maps. [DEMO](http://poetic.github.io/fancy-maps/).
 
 Quick Start
